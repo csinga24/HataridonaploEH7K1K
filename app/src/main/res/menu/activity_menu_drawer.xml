@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_calendar"
+            android:icon="@drawable/menu_calendar_icon"
+            android:title="@string/menu_calendar" />
+        <item
+            android:id="@+id/nav_notes"
+            android:icon="@drawable/notes_icon"
+            android:title="@string/menu_notes" />
+        <item
+            android:id="@+id/nav_habittracker"
+            android:icon="@drawable/tick_icon"
+            android:title="@string/menu_habittracker" />
+        </group>
+</menu>
