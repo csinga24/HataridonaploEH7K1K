@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "1000202242032",
+    "firebase_url": "https://hataridonaploeh7k1k.firebaseio.com",
+    "project_id": "hataridonaploeh7k1k",
+    "storage_bucket": "hataridonaploeh7k1k.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1000202242032:android:001aa53a642416aa72bf35",
+        "android_client_info": {
+          "package_name": "hu.bme.aut.android.hataridonaploeh7k1k"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1000202242032-9ljvulqn2aap0sl4upmml0s0bp4n4dpl.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDINFYly8nsYk79Y5OU23HDWaxe_rrVKkE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1000202242032-9ljvulqn2aap0sl4upmml0s0bp4n4dpl.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
