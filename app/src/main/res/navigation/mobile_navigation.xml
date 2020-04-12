@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/nav_calendar">
+
+    <fragment
+        android:id="@+id/nav_calendar"
+        android:name="hu.bme.aut.android.hataridonaploeh7k1k.ui.calendar.CalendarFragment"
+        android:label="@string/menu_calendar"
+        tools:layout="@layout/fragment_calendar" />
+
+    <fragment
+        android:id="@+id/nav_notes"
+        android:name="hu.bme.aut.android.hataridonaploeh7k1k.ui.notes.NotesFragment"
+        android:label="@string/menu_notes"
+        tools:layout="@layout/fragment_notes" />
+
+    <fragment
+        android:id="@+id/nav_habittracker"
+        android:name="hu.bme.aut.android.hataridonaploeh7k1k.ui.habittracker.HabitTrackerFragment"
+        android:label="@string/menu_habittracker"
+        tools:layout="@layout/fragment_habittracker" />
+
+</navigation>
