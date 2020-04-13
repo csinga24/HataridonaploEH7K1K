@@ -18,5 +18,7 @@
     <string name="logout">Kijelentkezés</string>
     <string name="napt_r_n_zet">Naptár nézet</string>
     <string name="lista_n_zet">Lista nézet</string>
+    <string name="add_note">Új Jegyzet hozzáadása</string>
+    <string name="add">Hozzáadás</string>
 
 </resources>

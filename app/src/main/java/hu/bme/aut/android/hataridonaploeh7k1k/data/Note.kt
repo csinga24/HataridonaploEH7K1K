@@ -7,6 +7,8 @@ class Note (
     var description: String
     ) {
 
+    constructor() : this("", Priority.LOW, "")
+
     enum class Priority {
         LOW, MEDIUM, HIGH
     }
