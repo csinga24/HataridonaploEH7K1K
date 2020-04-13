@@ -7,7 +7,8 @@
     tools:context=".ui.calendar.CalendarFragment">
 
     <TextView
-        android:id="@+id/text_home"
+        android:id="@+id/text_calendar_view"
+        android:text="cal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -19,4 +20,29 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.5" />
+
+    <Button
+        android:id="@+id/button_cal"
+        android:layout_width="200dp"
+        android:layout_height="45dp"
+        android:text="@string/napt_r_n_zet"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/guideline"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/button_list"
+        android:layout_width="200dp"
+        android:layout_height="45dp"
+        android:text="@string/lista_n_zet"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/guideline" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

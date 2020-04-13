@@ -16,5 +16,7 @@
     <string name="menu_notes">Jegyzetek</string>
     <string name="menu_habittracker">Habit-tracker</string>
     <string name="logout">Kijelentkezés</string>
+    <string name="napt_r_n_zet">Naptár nézet</string>
+    <string name="lista_n_zet">Lista nézet</string>
 
 </resources>
