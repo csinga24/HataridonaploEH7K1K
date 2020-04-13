@@ -19,6 +19,7 @@ import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
+import hu.bme.aut.android.hataridonaploeh7k1k.menu.ProfilActivity
 import kotlinx.android.synthetic.main.activity_menu.*
 import android.view.MenuItem as MenuItem
 
@@ -59,6 +60,11 @@ class MenuActivity : AppCompatActivity() {
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.menu, menu)
+        val profil = menu.findItem(R.id.action_profil) as MenuItem
+        profil.setOnMenuItemClickListener {
+            startActivity(Intent(this, ProfilActivity::class.java))
+            return@setOnMenuItemClickListener true
+        }
         return true
     }
 

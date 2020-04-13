@@ -10,7 +10,6 @@
     <string name="nav_header_title">Android Studio</string>
     <string name="nav_header_subtitle">android.studio@android.com</string>
     <string name="nav_header_desc">Navigation header</string>
-    <string name="action_settings">Settings</string>
 
     <string name="menu_calendar">Naptár</string>
     <string name="menu_notes">Jegyzetek</string>
@@ -20,5 +19,7 @@
     <string name="lista_n_zet">Lista nézet</string>
     <string name="add_note">Új Jegyzet hozzáadása</string>
     <string name="add">Hozzáadás</string>
+    <string name="action_profil">Profil</string>
+    <string name="action_settings">Beállítások</string>
 
 </resources>
