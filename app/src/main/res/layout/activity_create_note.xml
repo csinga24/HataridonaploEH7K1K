@@ -19,7 +19,7 @@
         android:id="@+id/note_title"
         android:layout_width="305dp"
         android:layout_height="46dp"
-        android:layout_marginTop="300dp"
+        android:layout_marginTop="100dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -39,7 +39,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
-        android:text="Title"
+        android:text="@string/title"
         app:layout_constraintBottom_toTopOf="@+id/note_title"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -48,7 +48,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
-        android:text="Desc"
+        android:text="@string/desc"
         app:layout_constraintBottom_toTopOf="@+id/note_desc"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -56,11 +56,77 @@
         android:id="@+id/button_add_new_note"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="200dp"
+        android:layout_marginTop="290dp"
         android:text="@string/add"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/note_desc" />
+
+    <Button
+        android:id="@+id/btnPicture"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="222dp"
+        android:text="@string/choose_pic"
+        app:layout_constraintBottom_toTopOf="@+id/button_add_new_note"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/note_desc" />
+
+    <Button
+        android:id="@+id/btnCamera"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="222dp"
+        android:layout_marginEnd="32dp"
+        android:text="@string/make_pic"
+        app:layout_constraintBottom_toTopOf="@+id/button_add_new_note"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/note_desc" />
+
+
+    <ImageView
+        android:id="@+id/imvPicture"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button_add_new_note" />
+
+    <RadioGroup
+        android:id="@+id/rgPriority"
+        android:layout_width="312dp"
+        android:layout_height="145dp"
+        android:layout_marginStart="50dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintBottom_toTopOf="@+id/btnPicture"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/note_desc">
+
+        <RadioButton
+            android:id="@+id/radioButtonLow"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:checked="true"
+            android:text="@string/low" />
+
+        <RadioButton
+            android:id="@+id/radioButtonMedium"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/medium" />
+
+        <RadioButton
+            android:id="@+id/radioButtonHigh"
+            android:shadowColor="@color/colorHigh"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/high" />
+    </RadioGroup>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
