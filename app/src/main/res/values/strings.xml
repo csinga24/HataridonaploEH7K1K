@@ -24,4 +24,12 @@
     <string name="menu_calendarlist">List</string>
     <string name="add_event">Új esemény létrehozása</string>
 
+    <string name="title">Cím</string>
+    <string name="desc">Leírása</string>
+    <string name="make_pic">Kép készítése</string>
+    <string name="choose_pic">Kép választása</string>
+    <string name="low">nem fontos</string>
+    <string name="medium">átlagos</string>
+    <string name="high">fontos</string>
+
 </resources>
