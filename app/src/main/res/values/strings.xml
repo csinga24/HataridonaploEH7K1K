@@ -21,5 +21,7 @@
     <string name="add">Hozzáadás</string>
     <string name="action_profil">Profil</string>
     <string name="action_settings">Beállítások</string>
+    <string name="menu_calendarlist">List</string>
+    <string name="add_event">Új esemény létrehozása</string>
 
 </resources>
