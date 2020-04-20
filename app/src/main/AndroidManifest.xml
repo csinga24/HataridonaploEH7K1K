@@ -11,6 +11,7 @@
         android:theme="@style/AppTheme">
 
         <activity android:name=".ui.notes.CreateNoteActivity" />
+        <activity android:name=".ui.calendar.fragments.CreateEventActivity" />
 
         <activity
             android:name=".MenuActivity"
