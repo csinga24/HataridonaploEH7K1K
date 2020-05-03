@@ -11,7 +11,7 @@ import kotlinx.android.synthetic.main.activity_create_note.*
 import hu.bme.aut.android.hataridonaploeh7k1k.extension.validateNonEmpty
 import kotlinx.android.synthetic.main.activity_create_event.*
 
-class CreateEventActivity : AppCompatActivity() {
+class CreateEventActivity : AppCompatActivity(), DatePickerDialogFragment.DateListener {
 
     var user: FirebaseUser? = com.google.firebase.auth.FirebaseAuth.getInstance().currentUser
 
@@ -19,7 +19,10 @@ class CreateEventActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_create_event)
 
-        button_add_new_event.setOnClickListener {sendClick()}
+        button_add_new_event.setOnClickListener { sendClick() }
+
+        event_date.text = "  -  "
+        event_date.setOnClickListener { showDatePickerDialog() }
     }
 
     private fun validateForm() = event_title.validateNonEmpty() && event_desc.validateNonEmpty()
@@ -29,7 +32,8 @@ class CreateEventActivity : AppCompatActivity() {
             return
         }
         val key = FirebaseDatabase.getInstance().reference.child("events").push().key ?: return
-        val newEvent = Event(user?.uid, event_title.text.toString(),null, null, event_desc.text.toString())
+        val newEvent =
+            Event(user?.uid, event_title.text.toString(), null, null, event_desc.text.toString())
         FirebaseDatabase.getInstance().reference
             .child("events")
             .child(key)
@@ -40,4 +44,12 @@ class CreateEventActivity : AppCompatActivity() {
             }
     }
 
+    private fun showDatePickerDialog() {
+        val datePicker = DatePickerDialogFragment()
+        datePicker.show(supportFragmentManager, "TAG")
+    }
+
+    override fun onDateSelected(date: String) {
+        event_date.text = date
+    }
 }
