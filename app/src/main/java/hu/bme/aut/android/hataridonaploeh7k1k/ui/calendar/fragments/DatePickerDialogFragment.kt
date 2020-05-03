@@ -25,7 +25,7 @@ class DatePickerDialogFragment : DialogFragment() {
             calSelectedDate.set(Calendar.MONTH, monthOfYear)
             calSelectedDate.set(Calendar.DAY_OF_MONTH, dayOfMonth)
 
-            listener.onDateSelected(buildDateText())
+            listener.onDateSelected(calSelectedDate)
 
             dismiss()
         }
@@ -60,21 +60,9 @@ class DatePickerDialogFragment : DialogFragment() {
         }
     }
 
-    private fun buildDateText(): String {
-        val dateString = StringBuilder()
-
-        dateString.append(calSelectedDate.get(Calendar.YEAR))
-        dateString.append(".")
-        dateString.append(calSelectedDate.get(Calendar.MONTH) + 1)
-        dateString.append(".")
-        dateString.append(calSelectedDate.get(Calendar.DAY_OF_MONTH))
-        dateString.append(".")
-
-        return dateString.toString()
-    }
 
     interface DateListener {
-        fun onDateSelected(date: String)
+        fun onDateSelected(date: Calendar)
     }
 
 }

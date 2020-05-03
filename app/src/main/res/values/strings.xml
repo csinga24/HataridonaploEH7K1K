@@ -31,5 +31,8 @@
     <string name="low">nem fontos</string>
     <string name="medium">átlagos</string>
     <string name="high">fontos</string>
+    <string name="modify">Szerkesztés</string>
+    <string name="delete">Törlés</string>
+    <string name="back">Vissza</string>
 
 </resources>

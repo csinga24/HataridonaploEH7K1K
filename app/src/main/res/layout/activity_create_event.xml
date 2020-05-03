@@ -7,6 +7,7 @@
     tools:context=".ui.calendar.fragments.CreateEventActivity">
 
     <TextView
+        android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
@@ -19,10 +20,10 @@
         android:id="@+id/event_title"
         android:layout_width="305dp"
         android:layout_height="46dp"
-        android:layout_marginTop="300dp"
+        android:layout_marginTop="50dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/event_date" />
 
     <EditText
         android:id="@+id/event_desc"
@@ -51,6 +52,23 @@
         android:text="Desc"
         app:layout_constraintBottom_toTopOf="@+id/event_desc"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:text="Date"
+        app:layout_constraintBottom_toTopOf="@+id/event_date"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/event_date"
+        android:layout_width="308dp"
+        android:layout_height="46dp"
+        android:layout_marginTop="150dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
 
     <Button
         android:id="@+id/button_add_new_event"

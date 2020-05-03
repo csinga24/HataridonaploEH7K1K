@@ -7,7 +7,7 @@ class Event (
     var uid: String?,
     var title: String,
     var location: Location?,
-    var date: Date?,
+    var date: String?,
     var description: String
 ) {
     constructor() : this(null, "", null, null, "")
