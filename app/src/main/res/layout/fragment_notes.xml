@@ -25,8 +25,10 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvNotes"
+            android:name="hu.bme.aut.android.hataridonaploeh7k1k.ui.notes.NotesFragment"
             android:layout_width="match_parent"
             android:layout_height="626dp"
+            tools:listitem="@layout/card_note"
             app:layout_behavior="@string/appbar_scrolling_view_behavior" />
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

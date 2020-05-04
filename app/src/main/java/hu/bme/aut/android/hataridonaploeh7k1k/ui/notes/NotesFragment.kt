@@ -2,10 +2,13 @@ package hu.bme.aut.android.hataridonaploeh7k1k.ui.notes
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.PopupMenu
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -15,8 +18,9 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import hu.bme.aut.android.hataridonaploeh7k1k.R
 import hu.bme.aut.android.hataridonaploeh7k1k.data.Note
+import hu.bme.aut.android.hataridonaploeh7k1k.extension.RecyclerViewItemClickListener
 import hu.bme.aut.android.hataridonaploeh7k1k.ui.notes.adapter.NotesAdapter
-import kotlinx.android.synthetic.main.fragment_notes.*
+import kotlinx.android.synthetic.main.activity_create_note.*
 
 class NotesFragment : Fragment() {
 
@@ -32,14 +36,38 @@ class NotesFragment : Fragment() {
         return view
     }
 
-    fun initialView(view: View){
-        val add_button : Button = view.findViewById<Button>(R.id.button_add_note)
-        add_button.setOnClickListener {
+    private fun initialView(view: View){
+        val addButton= view.findViewById<Button>(R.id.button_add_note)
+        addButton.setOnClickListener {
             val createNoteIntent = Intent(context, CreateNoteActivity::class.java)
             startActivity(createNoteIntent)
         }
 
         val recyclerView: RecyclerView = view.findViewById(R.id.rvNotes)
+        recyclerView.addOnItemTouchListener(
+            RecyclerViewItemClickListener(context, recyclerView, object : RecyclerViewItemClickListener.OnItemClickListener{
+                override fun onItemClick(view: View?, position: Int) {}
+
+                override fun onLongItemClick(view: View?, position: Int) {
+                    val popup = PopupMenu(view!!.context, view)
+                    popup.inflate(R.menu.menu_note)
+                    popup.setOnMenuItemClickListener { item ->
+                        when (item.itemId) {
+                            R.id.delete -> {
+                                FirebaseDatabase.getInstance().reference.child("notes").child(notesAdapter.getNote(position).key.toString()).removeValue()
+                                notesAdapter.deleteNote(position)
+                                return@setOnMenuItemClickListener true
+                            }
+                            R.id.modify -> {
+                                return@setOnMenuItemClickListener true
+                            }
+                        }
+                        false
+                    }
+                    popup.show()
+                }
+            })
+        )
 
         notesAdapter = NotesAdapter(activity?.applicationContext)
         recyclerView.layoutManager = LinearLayoutManager(activity).apply {
@@ -61,9 +89,12 @@ class NotesFragment : Fragment() {
                 }
 
                 override fun onChildChanged(dataSnapshot: DataSnapshot, s: String?) {
+
                 }
 
                 override fun onChildRemoved(dataSnapshot: DataSnapshot) {
+                    val removedNote = dataSnapshot.getValue<Note>(Note::class.java)
+                    Toast.makeText(context, removedNote!!.title + "törölve", Toast.LENGTH_SHORT).show()
                 }
 
                 override fun onChildMoved(dataSnapshot: DataSnapshot, s: String?) {
@@ -73,4 +104,5 @@ class NotesFragment : Fragment() {
                 }
             })
     }
+
 }
