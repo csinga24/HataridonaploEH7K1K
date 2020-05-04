@@ -18,6 +18,7 @@ class EventsAdapter(private val context: Context?) : RecyclerView.Adapter<Events
         val tvTitle: TextView = itemView.tvTitle
         val tvDesc: TextView = itemView.tvDescription
         val tvDate: TextView = itemView.tvDate
+        val tvTime: TextView = itemView.tvTime
         val tvLocation: TextView = itemView.tvLocation
 
     }
@@ -36,6 +37,7 @@ class EventsAdapter(private val context: Context?) : RecyclerView.Adapter<Events
         holder.tvTitle.text = tmpEvent.title
         holder.tvDesc.text = tmpEvent.description
         holder.tvDate.text = tmpEvent.date
+        holder.tvTime.text = tmpEvent.time
         holder.tvLocation.text =tmpEvent.location
     }
 
@@ -43,5 +45,14 @@ class EventsAdapter(private val context: Context?) : RecyclerView.Adapter<Events
         event ?: return
         eventsList.add(event)
         notifyDataSetChanged()
+    }
+
+    fun deleteEvent(position: Int){
+        eventsList.removeAt(position)
+        notifyItemRemoved(position)
+    }
+
+    fun getEvent(position: Int): Event{
+        return eventsList[position]
     }
 }
