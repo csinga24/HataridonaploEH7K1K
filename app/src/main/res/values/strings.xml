@@ -35,5 +35,8 @@
     <string name="delete">Törlés</string>
     <string name="back">Vissza</string>
     <string name="title_activity_maps">Map</string>
+    <string name="date">Dátum</string>
+    <string name="location">Helyszín</string>
+    <string name="time">Idő</string>
 
 </resources>
