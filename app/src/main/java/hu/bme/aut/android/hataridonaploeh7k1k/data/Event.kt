@@ -9,7 +9,8 @@ class Event (
     var title: String,
     var location: String?,
     var date: String?,
+    var time: String?,
     var description: String
 ) {
-    constructor() : this(null,null, "", null, null, "")
+    constructor() : this(null,null, "", null, null, null, "")
 }
