@@ -4,7 +4,7 @@ import com.google.firebase.auth.FirebaseUser
 
 
 class Note (
-    var key: String? = null,
+    var key: String?,
     var uid: String?,
     var title: String,
     var priority: Priority,

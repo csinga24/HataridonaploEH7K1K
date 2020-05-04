@@ -125,7 +125,7 @@ class CreateNoteActivity : AppCompatActivity() {
 
     private fun uploadNote(imageUrl: String?){
         val key = FirebaseDatabase.getInstance().reference.child("notes").push().key ?: return
-        val newNote = Note(user?.uid, note_title.text.toString(), checkPriority(), note_desc.text.toString(), imageUrl)
+        val newNote = Note(key, user?.uid, note_title.text.toString(), checkPriority(), note_desc.text.toString(), imageUrl)
         FirebaseDatabase.getInstance().reference
             .child("notes")
             .child(key)
