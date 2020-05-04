@@ -1,6 +1,5 @@
 package hu.bme.aut.android.hataridonaploeh7k1k.ui.calendar.fragments
 
-import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
@@ -22,7 +21,7 @@ import java.util.*
 class CreateEventActivity : AppCompatActivity(), DatePickerDialogFragment.DateListener {
 
     var user: FirebaseUser? = com.google.firebase.auth.FirebaseAuth.getInstance().currentUser
-    private val MAP_POINT_REQUEST = 999
+    private val MAP_REQUEST = 4
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,7 +44,7 @@ class CreateEventActivity : AppCompatActivity(), DatePickerDialogFragment.DateLi
         }
         val key = FirebaseDatabase.getInstance().reference.child("events").push().key ?: return
         val newEvent =
-            Event(user?.uid, event_title.text.toString(), event_location.text.toString(), event_date.text.toString(), event_desc.text.toString())
+            Event(key, user?.uid, event_title.text.toString(), event_location.text.toString(), event_date.text.toString(), event_desc.text.toString())
         FirebaseDatabase.getInstance().reference
             .child("events")
             .child(key)
@@ -67,13 +66,13 @@ class CreateEventActivity : AppCompatActivity(), DatePickerDialogFragment.DateLi
 
     private fun pickPointOnMap() {
         val pickPointIntent = Intent(this, MapsActivity::class.java)
-        startActivityForResult(pickPointIntent, MAP_POINT_REQUEST)
+        startActivityForResult(pickPointIntent, MAP_REQUEST)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        if (requestCode == MAP_POINT_REQUEST) {
+        if (requestCode == MAP_REQUEST) {
             if (resultCode == Activity.RESULT_OK) {
                 val latLng: LatLng = data?.getParcelableExtra<Parcelable>("picked_point") as LatLng
                 event_location.text = latLng.locationToText(this)
