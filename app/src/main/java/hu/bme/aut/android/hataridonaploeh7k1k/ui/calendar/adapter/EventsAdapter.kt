@@ -8,8 +8,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import hu.bme.aut.android.hataridonaploeh7k1k.R
 import hu.bme.aut.android.hataridonaploeh7k1k.data.Event
-import hu.bme.aut.android.hataridonaploeh7k1k.data.Note
-import kotlinx.android.synthetic.main.card_note.view.*
+import kotlinx.android.synthetic.main.card_event.view.*
 
 class EventsAdapter(private val context: Context?) : RecyclerView.Adapter<EventsAdapter.ViewHolder>()  {
 
@@ -18,6 +17,9 @@ class EventsAdapter(private val context: Context?) : RecyclerView.Adapter<Events
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val tvTitle: TextView = itemView.tvTitle
         val tvDesc: TextView = itemView.tvDescription
+        val tvDate: TextView = itemView.tvDate
+        val tvLocation: TextView = itemView.tvLocation
+
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -33,6 +35,8 @@ class EventsAdapter(private val context: Context?) : RecyclerView.Adapter<Events
         val tmpEvent = eventsList[position]
         holder.tvTitle.text = tmpEvent.title
         holder.tvDesc.text = tmpEvent.description
+        holder.tvDate.text = tmpEvent.date
+        holder.tvLocation.text =tmpEvent.location
     }
 
     fun addEvent(event: Event?){
