@@ -13,6 +13,7 @@ import com.google.firebase.database.FirebaseDatabase
 import hu.bme.aut.android.hataridonaploeh7k1k.R
 import hu.bme.aut.android.hataridonaploeh7k1k.data.Event
 import hu.bme.aut.android.hataridonaploeh7k1k.extension.dateToText
+import hu.bme.aut.android.hataridonaploeh7k1k.extension.locationToText
 import hu.bme.aut.android.hataridonaploeh7k1k.extension.validateNonEmpty
 import kotlinx.android.synthetic.main.activity_create_event.*
 import java.util.*
@@ -69,14 +70,13 @@ class CreateEventActivity : AppCompatActivity(), DatePickerDialogFragment.DateLi
         startActivityForResult(pickPointIntent, MAP_POINT_REQUEST)
     }
 
-    @SuppressLint("SetTextI18n")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
         if (requestCode == MAP_POINT_REQUEST) {
             if (resultCode == Activity.RESULT_OK) {
                 val latLng: LatLng = data?.getParcelableExtra<Parcelable>("picked_point") as LatLng
-                event_location.text = latLng.latitude.toString() + " - " + latLng.longitude.toString()
+                event_location.text = latLng.locationToText(this)
             }
         }
     }
