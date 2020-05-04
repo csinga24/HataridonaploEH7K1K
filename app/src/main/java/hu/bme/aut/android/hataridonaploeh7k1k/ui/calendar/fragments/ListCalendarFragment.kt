@@ -6,6 +6,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.PopupMenu
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -15,6 +17,7 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import hu.bme.aut.android.hataridonaploeh7k1k.R
 import hu.bme.aut.android.hataridonaploeh7k1k.data.Event
+import hu.bme.aut.android.hataridonaploeh7k1k.extension.RecyclerViewItemClickListener
 import hu.bme.aut.android.hataridonaploeh7k1k.ui.calendar.adapter.EventsAdapter
 
 class ListCalendarFragment : Fragment() {
@@ -39,6 +42,29 @@ class ListCalendarFragment : Fragment() {
         }
 
         val recyclerView: RecyclerView = view.findViewById(R.id.rvEvents)
+        recyclerView.addOnItemTouchListener(
+        RecyclerViewItemClickListener(context, recyclerView, object : RecyclerViewItemClickListener.OnItemClickListener{
+            override fun onItemClick(view: View?, position: Int) {}
+
+            override fun onLongItemClick(view: View?, position: Int) {
+                val popup = PopupMenu(view!!.context, view)
+                popup.inflate(R.menu.menu_note)
+                popup.setOnMenuItemClickListener { item ->
+                    when (item.itemId) {
+                        R.id.delete -> {
+                            FirebaseDatabase.getInstance().reference.child("events").child(eventsAdapter.getEvent(position).key.toString()).removeValue()
+                            eventsAdapter.deleteEvent(position)
+                            return@setOnMenuItemClickListener true
+                        }
+                        R.id.modify -> {
+                            return@setOnMenuItemClickListener true
+                        }
+                    }
+                    false
+                }
+                popup.show()
+            }
+        }))
 
         eventsAdapter = EventsAdapter(activity?.applicationContext)
         recyclerView.layoutManager = LinearLayoutManager(activity).apply {
@@ -61,9 +87,14 @@ class ListCalendarFragment : Fragment() {
                 }
 
                 override fun onChildChanged(dataSnapshot: DataSnapshot, s: String?) {
+                    val changedEvent = dataSnapshot.getValue<Event>(Event::class.java)
+                    Toast.makeText(context, changedEvent!!.title + "megváltozott", Toast.LENGTH_SHORT).show()
+
                 }
 
                 override fun onChildRemoved(dataSnapshot: DataSnapshot) {
+                    val removedEvent = dataSnapshot.getValue<Event>(Event::class.java)
+                    Toast.makeText(context, removedEvent!!.title + "törölve", Toast.LENGTH_SHORT).show()
                 }
 
                 override fun onChildMoved(dataSnapshot: DataSnapshot, s: String?) {
