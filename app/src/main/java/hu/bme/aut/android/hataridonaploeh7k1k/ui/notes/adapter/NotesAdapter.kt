@@ -23,6 +23,16 @@ class NotesAdapter(private val context: Context?) : RecyclerView.Adapter<NotesAd
         return ViewHolder(view)
     }
 
+    inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        val tvTitle: TextView = itemView.tvTitle
+        val tvDesc: TextView = itemView.tvDescription
+        val imgNote: ImageView = itemView.imgNote
+        val tvPriority: TextView = itemView.tvPriority
+        val view: View = itemView
+
+        var note: Note? = null;
+    }
+
     override fun getItemCount() = notesList.size
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
@@ -40,15 +50,15 @@ class NotesAdapter(private val context: Context?) : RecyclerView.Adapter<NotesAd
         when (tmpNotes.priority) {
             Note.Priority.LOW -> {
                 holder.tvPriority.text = "Nem Fontos"
-                holder.iview.setBackgroundColor(Color.parseColor("#F1E263")) //<color name="colorLow">#F1E263</color>
+                holder.view.setBackgroundColor(Color.parseColor("#F1E263")) //<color name="colorLow">#F1E263</color>
             }
             Note.Priority.MEDIUM -> {
                 holder.tvPriority.text = "Átlagos"
-                holder.iview.setBackgroundColor(Color.parseColor("#EF734C")) //<color name="colorMedium">#EF734C</color>
+                holder.view.setBackgroundColor(Color.parseColor("#EF734C")) //<color name="colorMedium">#EF734C</color>
             }
             Note.Priority.HIGH -> {
                 holder.tvPriority.text = "Fontos"
-                holder.iview.setBackgroundColor(Color.parseColor("#EF3232")) //<color name="colorHigh">#EF3232</color>
+                holder.view.setBackgroundColor(Color.parseColor("#EF3232")) //<color name="colorHigh">#EF3232</color>
             }
         }
     }
@@ -68,13 +78,4 @@ class NotesAdapter(private val context: Context?) : RecyclerView.Adapter<NotesAd
         return notesList.get(position)
     }
 
-    inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val tvTitle: TextView = itemView.tvTitle
-        val tvDesc: TextView = itemView.tvDescription
-        val imgNote: ImageView = itemView.imgNote
-        val tvPriority: TextView = itemView.tvPriority
-        val iview: View = itemView
-
-        var note: Note? = null;
-    }
 }

@@ -7,7 +7,7 @@ import androidx.lifecycle.ViewModel
 class HabitTrackerViewModel : ViewModel() {
 
     private val _text = MutableLiveData<String>().apply {
-        value = "This is slideshow Fragment"
+        value = "This is HABITTRACKER Fragment \n commming soon..."
     }
     val text: LiveData<String> = _text
 }

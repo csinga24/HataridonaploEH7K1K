@@ -1,8 +1,5 @@
 package hu.bme.aut.android.hataridonaploeh7k1k.data
 
-import com.google.firebase.auth.FirebaseUser
-
-
 class Note (
     var key: String?,
     var uid: String?,

@@ -23,16 +23,16 @@ class CalendarFragment : Fragment(){
         return view
     }
 
-    fun initialView(view: View) {
+    private fun initialView(view: View) {
         swapFragmnet(CalCalendarFragment())
 
-        val button_cal:Button = view.findViewById(R.id.button_cal)
-        button_cal.setOnClickListener {
+        val buttonCal:Button = view.findViewById(R.id.button_cal)
+        buttonCal.setOnClickListener {
             val newFragment = CalCalendarFragment()
             swapFragmnet(newFragment)
         }
-        val button_list:Button = view.findViewById(R.id.button_list)
-        button_list.setOnClickListener {
+        val buttonList:Button = view.findViewById(R.id.button_list)
+        buttonList.setOnClickListener {
             val newFragment = ListCalendarFragment()
             swapFragmnet(newFragment)
         }
@@ -40,7 +40,7 @@ class CalendarFragment : Fragment(){
 
     private fun swapFragmnet(newFragment: Fragment) {
         val fragmentTransaction =
-            activity!!.supportFragmentManager.beginTransaction()
+            requireActivity().supportFragmentManager.beginTransaction()
         fragmentTransaction.replace(R.id.fragmentContainer, newFragment)
         fragmentTransaction.commit()
     }
