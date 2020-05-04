@@ -1,6 +1,9 @@
 package hu.bme.aut.android.hataridonaploeh7k1k.ui.calendar.fragments
 
+import android.annotation.SuppressLint
 import android.app.Activity
+import android.app.TimePickerDialog
+import android.app.TimePickerDialog.OnTimeSetListener
 import android.content.Intent
 import android.os.Bundle
 import android.os.Parcelable
@@ -32,6 +35,9 @@ class CreateEventActivity : AppCompatActivity(), DatePickerDialogFragment.DateLi
         event_date.text = "  -  "
         event_date.setOnClickListener { showDatePickerDialog() }
 
+        event_time.text = "  -  "
+        event_time.setOnClickListener { showTimePickerDialog() }
+
         event_location.text = "  -  "
         event_location.setOnClickListener { pickPointOnMap() }
     }
@@ -44,7 +50,7 @@ class CreateEventActivity : AppCompatActivity(), DatePickerDialogFragment.DateLi
         }
         val key = FirebaseDatabase.getInstance().reference.child("events").push().key ?: return
         val newEvent =
-            Event(key, user?.uid, event_title.text.toString(), event_location.text.toString(), event_date.text.toString(), event_desc.text.toString())
+            Event(key, user?.uid, event_title.text.toString(), event_location.text.toString(), event_date.text.toString(), event_time.text.toString(), event_desc.text.toString())
         FirebaseDatabase.getInstance().reference
             .child("events")
             .child(key)
@@ -57,7 +63,20 @@ class CreateEventActivity : AppCompatActivity(), DatePickerDialogFragment.DateLi
 
     private fun showDatePickerDialog() {
         val datePicker = DatePickerDialogFragment()
-        datePicker.show(supportFragmentManager, "TAG")
+        datePicker.show(supportFragmentManager, "Date")
+    }
+
+    @SuppressLint("SetTextI18n")
+    private fun showTimePickerDialog() {
+        val timePickerListener = OnTimeSetListener { view, hour, minute ->
+            event_time.text = "$hour:$minute"
+        }
+        val c = Calendar.getInstance()
+        val timePickerDialog = TimePickerDialog(
+            this, timePickerListener,
+            c[Calendar.HOUR_OF_DAY], c[Calendar.MINUTE] + 5, true
+        )
+        timePickerDialog.show()
     }
 
     override fun onDateSelected(date: Calendar) {
