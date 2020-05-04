@@ -59,6 +59,14 @@ class NotesFragment : Fragment() {
                                 return@setOnMenuItemClickListener true
                             }
                             R.id.modify -> {
+                                val modifyNoteIntent = Intent(context, CreateNoteActivity::class.java)
+                                modifyNoteIntent.putExtra("note title",  notesAdapter.getNote(position).title)
+                                modifyNoteIntent.putExtra("note priority",  notesAdapter.getNote(position).priority.name)
+                                modifyNoteIntent.putExtra("note desc",  notesAdapter.getNote(position).description)
+                                modifyNoteIntent.putExtra("note img",  notesAdapter.getNote(position).imageUrl)
+                                FirebaseDatabase.getInstance().reference.child("notes").child(notesAdapter.getNote(position).key.toString()).setValue(null)
+                                notesAdapter.deleteNote(position)  //TODO
+                                startActivity(modifyNoteIntent)
                                 return@setOnMenuItemClickListener true
                             }
                         }
