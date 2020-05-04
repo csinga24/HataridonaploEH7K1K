@@ -25,7 +25,7 @@ class LoginActivity : AppCompatActivity() {
 
     private fun validateForm() = etEmail.validateNonEmpty() && etPassword.validateNonEmpty()
 
-    private fun registerClick() {
+    private fun registerClick() {  //TODO
         if (!validateForm()) {
             return
         }

@@ -7,6 +7,7 @@
     tools:context=".ui.notes.CreateNoteActivity">
 
     <TextView
+        android:id="@+id/tvAddNote"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
@@ -53,7 +54,7 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
-        android:id="@+id/button_add_new_note"
+        android:id="@+id/btnAddNewNote"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="290dp"
@@ -69,7 +70,7 @@
         android:layout_marginStart="32dp"
         android:layout_marginTop="222dp"
         android:text="@string/choose_pic"
-        app:layout_constraintBottom_toTopOf="@+id/button_add_new_note"
+        app:layout_constraintBottom_toTopOf="@+id/btnAddNewNote"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/note_desc" />
 
@@ -80,7 +81,7 @@
         android:layout_marginTop="222dp"
         android:layout_marginEnd="32dp"
         android:text="@string/make_pic"
-        app:layout_constraintBottom_toTopOf="@+id/button_add_new_note"
+        app:layout_constraintBottom_toTopOf="@+id/btnAddNewNote"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/note_desc" />
 
@@ -93,7 +94,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button_add_new_note" />
+        app:layout_constraintTop_toBottomOf="@+id/btnAddNewNote" />
 
     <RadioGroup
         android:id="@+id/rgPriority"

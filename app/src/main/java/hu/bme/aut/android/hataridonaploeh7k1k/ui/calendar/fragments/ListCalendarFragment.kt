@@ -41,30 +41,26 @@ class ListCalendarFragment : Fragment() {
             startActivity(createEventIntent)
         }
 
-        val recyclerView: RecyclerView = view.findViewById(R.id.rvEvents)
-        recyclerView.addOnItemTouchListener(
-        RecyclerViewItemClickListener(context, recyclerView, object : RecyclerViewItemClickListener.OnItemClickListener{
-            override fun onItemClick(view: View?, position: Int) {}
+        val recyclerView: RecyclerView = view.findViewById(R.id.rvEvents)  //TODO
+        recyclerView.addOnItemTouchListener(RecyclerViewItemClickListener(context, recyclerView, object: RecyclerViewItemClickListener.OnItemClickListener{
+            override fun onItemClick(view: View?, position: Int) { }
 
             override fun onLongItemClick(view: View?, position: Int) {
                 val popup = PopupMenu(view!!.context, view)
                 popup.inflate(R.menu.menu_note)
                 popup.setOnMenuItemClickListener { item ->
                     when (item.itemId) {
-                        R.id.delete -> {
-                            FirebaseDatabase.getInstance().reference.child("events").child(eventsAdapter.getEvent(position).key.toString()).removeValue()
-                            eventsAdapter.deleteEvent(position)
-                            return@setOnMenuItemClickListener true
+                        R.id.delete -> { return@setOnMenuItemClickListener true
                         }
-                        R.id.modify -> {
-                            return@setOnMenuItemClickListener true
+                        R.id.modify -> { return@setOnMenuItemClickListener true //TODO
                         }
                     }
-                    false
+                    return@setOnMenuItemClickListener false
                 }
-                popup.show()
             }
+
         }))
+
 
         eventsAdapter = EventsAdapter(activity?.applicationContext)
         recyclerView.layoutManager = LinearLayoutManager(activity).apply {

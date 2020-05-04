@@ -15,8 +15,10 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvEvents"
+            android:name="hu.bme.aut.android.hataridonaploeh7k1k.ui.calendar.fragments.ListCalendarFragment"
             android:layout_width="match_parent"
-            android:layout_height="552dp"
+            android:layout_height="520dp"
+            tools:listitem="@layout/card_event"
             app:layout_behavior="@string/appbar_scrolling_view_behavior" />
     </LinearLayout>
 

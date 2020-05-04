@@ -30,7 +30,7 @@ class CreateEventActivity : AppCompatActivity(), DatePickerDialogFragment.DateLi
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_create_event)
 
-        button_add_new_event.setOnClickListener { sendClick() }
+        btnAddNewEvent.setOnClickListener { sendClick() }
 
         event_date.text = "  -  "
         event_date.setOnClickListener { showDatePickerDialog() }

@@ -10,7 +10,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import hu.bme.aut.android.hataridonaploeh7k1k.R
 
-class HabitTrackerFragment : Fragment() {
+class HabitTrackerFragment : Fragment() { //TODO
 
     private lateinit var habitTrackerViewModel: HabitTrackerViewModel
 
