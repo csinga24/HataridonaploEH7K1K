@@ -1,5 +1,6 @@
 package hu.bme.aut.android.hataridonaploeh7k1k.ui.notes
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
 import android.graphics.Bitmap
@@ -7,9 +8,11 @@ import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
+import android.text.Editable
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
@@ -29,17 +32,51 @@ class CreateNoteActivity : AppCompatActivity() {
         private const val PICK_IMAGE = 2
     }
 
+    var readyText:String = "Új jegyzet hozzáadva!"
+
     var user: FirebaseUser? = com.google.firebase.auth.FirebaseAuth.getInstance().currentUser
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_create_note)
 
-        rgPriority.checkedRadioButtonId
-
-        button_add_new_note.setOnClickListener { sendClick() }
+        btnAddNewNote.setOnClickListener { sendClick() }
         btnPicture.setOnClickListener { attachPicClick() }
         btnCamera.setOnClickListener { makePicClick() }
+
+        val intent: Intent = intent;
+        if(intent.getStringExtra("note title") != null) {
+            getExtras(intent)
+        }
+        rgPriority.checkedRadioButtonId
+    }
+
+    @SuppressLint("SetTextI18n")
+    fun getExtras(intent: Intent){
+        val title: String? = intent.getStringExtra("note title")
+        note_title.text = Editable.Factory.getInstance().newEditable(title)
+        val desc: String? = intent.getStringExtra("note desc")
+        note_desc.text = Editable.Factory.getInstance().newEditable(desc)
+        val img: String? = intent.getStringExtra("note img")
+        if(img != null) {
+            if (img.isNullOrBlank()) {
+                imvPicture.visibility = View.GONE
+            } else {
+                Glide.with(this).load(img).into(imvPicture)
+                imvPicture.visibility = View.VISIBLE
+            }
+        }
+
+        when (intent.getStringExtra("note priority")){  //TODO
+            Note.Priority.HIGH.name -> radioButtonHigh.isChecked
+            Note.Priority.MEDIUM.name -> radioButtonMedium.isChecked
+            Note.Priority.LOW.name -> radioButtonLow.isChecked
+        }
+
+        tvAddNote.text = "Jegyzet módosítása"
+        btnAddNewNote.text = "Módosítás!"
+        readyText = "Jegyzet módosítva!"
+
     }
 
     private  fun makePicClick(){
@@ -131,7 +168,7 @@ class CreateNoteActivity : AppCompatActivity() {
             .child(key)
             .setValue(newNote)
             .addOnCompleteListener {
-                Toast.makeText(this, "Új jegyzet hozzáadva", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, readyText, Toast.LENGTH_SHORT).show()
                 finish()
             }
     }
