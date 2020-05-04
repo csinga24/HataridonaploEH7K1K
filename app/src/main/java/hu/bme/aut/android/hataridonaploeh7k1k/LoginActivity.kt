@@ -25,7 +25,6 @@ class LoginActivity : AppCompatActivity() {
 
     private fun validateForm() = etEmail.validateNonEmpty() && etPassword.validateNonEmpty()
 
-    @SuppressLint("ShowToast")
     private fun registerClick() {
         if (!validateForm()) {
             return

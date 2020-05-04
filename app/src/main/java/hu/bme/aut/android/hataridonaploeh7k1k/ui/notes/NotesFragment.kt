@@ -89,7 +89,8 @@ class NotesFragment : Fragment() {
                 }
 
                 override fun onChildChanged(dataSnapshot: DataSnapshot, s: String?) {
-
+                    val changedNote = dataSnapshot.getValue<Note>(Note::class.java)
+                    Toast.makeText(context, changedNote!!.title + "megváltozott", Toast.LENGTH_SHORT).show()
                 }
 
                 override fun onChildRemoved(dataSnapshot: DataSnapshot) {

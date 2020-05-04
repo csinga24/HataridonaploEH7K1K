@@ -49,9 +49,9 @@ class MenuActivity : AppCompatActivity() {
 
         val headerView =  navView.getHeaderView(0);
         val textViewName : TextView = headerView.findViewById(R.id.nav_header_textView_name);
-        textViewName.setText(firebaseUser?.displayName);
+        textViewName.text = firebaseUser?.displayName;
         val textViewEmail : TextView = headerView.findViewById(R.id.nav_header_textView_email);
-        textViewEmail.setText(firebaseUser?.email);
+        textViewEmail.text = firebaseUser?.email;
         val logoutButton : Button = headerView.findViewById(R.id.nav_logout)
         logoutButton.setOnClickListener {
             logOut()

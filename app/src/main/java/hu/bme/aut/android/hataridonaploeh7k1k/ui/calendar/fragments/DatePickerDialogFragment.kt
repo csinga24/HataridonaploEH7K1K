@@ -18,9 +18,8 @@ class DatePickerDialogFragment : DialogFragment() {
 
     private lateinit var listener: DateListener
 
-    private val dateSetListener = object : DatePickerDialog.OnDateSetListener {
-        override fun onDateSet(datePicker: DatePicker?, year: Int, monthOfYear: Int, dayOfMonth: Int) {
-            // Setting the new date
+    private val dateSetListener =
+        DatePickerDialog.OnDateSetListener { datePicker, year, monthOfYear, dayOfMonth ->
             calSelectedDate.set(Calendar.YEAR, year)
             calSelectedDate.set(Calendar.MONTH, monthOfYear)
             calSelectedDate.set(Calendar.DAY_OF_MONTH, dayOfMonth)
@@ -29,7 +28,6 @@ class DatePickerDialogFragment : DialogFragment() {
 
             dismiss()
         }
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

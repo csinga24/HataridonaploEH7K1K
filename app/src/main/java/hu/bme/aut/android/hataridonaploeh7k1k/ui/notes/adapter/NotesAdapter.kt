@@ -1,5 +1,6 @@
 package hu.bme.aut.android.hataridonaploeh7k1k.ui.notes.adapter
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Color
 import android.view.LayoutInflater
@@ -35,6 +36,7 @@ class NotesAdapter(private val context: Context?) : RecyclerView.Adapter<NotesAd
 
     override fun getItemCount() = notesList.size
 
+    @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val tmpNotes = notesList[position]
         holder.tvTitle.text = tmpNotes.title
