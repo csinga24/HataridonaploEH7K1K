@@ -69,7 +69,7 @@ class ListCalendarFragment : Fragment() {
                             modifyEventIntent.putExtra("event date",  eventsAdapter.getEvent(position).date)
                             modifyEventIntent.putExtra("event time",  eventsAdapter.getEvent(position).time)
                             modifyEventIntent.putExtra("event desc",  eventsAdapter.getEvent(position).description)
-                            modifyEventIntent.putExtra("note location",  eventsAdapter.getEvent(position).location)
+                            modifyEventIntent.putExtra("event location",  eventsAdapter.getEvent(position).location)
 
                             FirebaseDatabase.getInstance().reference.child("events").child(eventsAdapter.getEvent(position).key.toString()).setValue(null)
                             eventsAdapter.deleteEvent(position)

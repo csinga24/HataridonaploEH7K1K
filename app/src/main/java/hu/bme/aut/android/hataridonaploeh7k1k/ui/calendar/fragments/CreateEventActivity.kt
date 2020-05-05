@@ -7,6 +7,7 @@ import android.app.TimePickerDialog.OnTimeSetListener
 import android.content.Intent
 import android.os.Bundle
 import android.os.Parcelable
+import android.text.Editable
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.gms.maps.model.LatLng
@@ -24,6 +25,8 @@ import java.util.*
 class CreateEventActivity : AppCompatActivity(), DatePickerDialogFragment.DateListener {
 
     var user: FirebaseUser? = com.google.firebase.auth.FirebaseAuth.getInstance().currentUser
+    private var readyText = "Új esemény hozzáadva"
+
     private val MAP_REQUEST = 4
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -40,6 +43,38 @@ class CreateEventActivity : AppCompatActivity(), DatePickerDialogFragment.DateLi
 
         event_location.text = "  -  "
         event_location.setOnClickListener { pickPointOnMap() }
+
+        val intent: Intent = intent;
+        if(intent.getStringExtra("event title") != null) {
+            getExtras(intent)
+        }
+    }
+
+    @SuppressLint("SetTextI18n")
+    private fun getExtras(intent: Intent){
+        val title: String? = intent.getStringExtra("event title")
+        event_title.text = Editable.Factory.getInstance().newEditable(title)
+        val desc: String? = intent.getStringExtra("event desc")
+        event_desc.text = Editable.Factory.getInstance().newEditable(desc)
+
+        val date: String? = intent.getStringExtra("event date")
+        if(date != null){
+            event_date.text = date
+        }
+
+        val time: String? = intent.getStringExtra("event time")
+        if(time != null){
+            event_time.text = time
+        }
+
+        val location: String? = intent.getStringExtra("event location")
+        if(location != null){
+            event_location.text = location
+        }
+
+        tvAddEvent.text = "Esemény módosítása"
+        btnAddNewEvent.text = "Módosítás!"
+        readyText = "Esemény módosítva!"
     }
 
     private fun validateForm() = event_title.validateNonEmpty() && event_desc.validateNonEmpty()
@@ -56,7 +91,7 @@ class CreateEventActivity : AppCompatActivity(), DatePickerDialogFragment.DateLi
             .child(key)
             .setValue(newEvent)
             .addOnCompleteListener {
-                Toast.makeText(this, "Új esemény hozzáadva", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, readyText, Toast.LENGTH_SHORT).show()
                 finish()
             }
     }
