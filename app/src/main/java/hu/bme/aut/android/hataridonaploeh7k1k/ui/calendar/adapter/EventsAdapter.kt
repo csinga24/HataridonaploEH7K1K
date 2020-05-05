@@ -55,4 +55,9 @@ class EventsAdapter(private val context: Context?) : RecyclerView.Adapter<Events
     fun getEvent(position: Int): Event{
         return eventsList[position]
     }
+
+    fun deleteAll(){
+        eventsList.clear()
+        notifyDataSetChanged();
+    }
 }
