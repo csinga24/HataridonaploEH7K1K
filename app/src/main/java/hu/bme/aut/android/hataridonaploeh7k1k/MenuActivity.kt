@@ -26,6 +26,7 @@ import android.view.MenuItem as MenuItem
 class MenuActivity : AppCompatActivity() {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
+
     private val firebaseUser: FirebaseUser? = com.google.firebase.auth.FirebaseAuth.getInstance().currentUser
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -49,9 +50,8 @@ class MenuActivity : AppCompatActivity() {
 
         val headerView =  navView.getHeaderView(0);
         val textViewName : TextView = headerView.findViewById(R.id.nav_header_textView_name);
-        textViewName.text = firebaseUser?.displayName;
-        val textViewEmail : TextView = headerView.findViewById(R.id.nav_header_textView_email);
-        textViewEmail.text = firebaseUser?.email;
+        textViewName.text = firebaseUser?.displayName
+
         val logoutButton : Button = headerView.findViewById(R.id.nav_logout)
         logoutButton.setOnClickListener {
             logOut()
@@ -73,7 +73,6 @@ class MenuActivity : AppCompatActivity() {
         return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
     }
 
-    //override fun onBackPressed() { logOut() }
 
     private fun logOut(): Boolean{
         FirebaseAuth.getInstance().signOut()

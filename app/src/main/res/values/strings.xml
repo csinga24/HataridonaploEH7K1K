@@ -38,5 +38,6 @@
     <string name="date">Dátum</string>
     <string name="location">Helyszín</string>
     <string name="time">Idő</string>
+    <string name="reg_data">Töltsd ki az adataidat a regisztrációhoz!</string>
 
 </resources>

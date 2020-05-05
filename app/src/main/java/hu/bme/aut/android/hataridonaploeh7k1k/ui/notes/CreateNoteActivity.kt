@@ -13,7 +13,6 @@ import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
-import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
 import hu.bme.aut.android.hataridonaploeh7k1k.R
@@ -52,11 +51,12 @@ class CreateNoteActivity : AppCompatActivity() {
     }
 
     @SuppressLint("SetTextI18n")
-    fun getExtras(intent: Intent){
+    private fun getExtras(intent: Intent){
         val title: String? = intent.getStringExtra("note title")
         note_title.text = Editable.Factory.getInstance().newEditable(title)
         val desc: String? = intent.getStringExtra("note desc")
         note_desc.text = Editable.Factory.getInstance().newEditable(desc)
+
         val img: String? = intent.getStringExtra("note img")
         if(img != null) {
             if (img.isNullOrBlank()) {
@@ -71,6 +71,7 @@ class CreateNoteActivity : AppCompatActivity() {
             Note.Priority.HIGH.name -> radioButtonHigh.isChecked
             Note.Priority.MEDIUM.name -> radioButtonMedium.isChecked
             Note.Priority.LOW.name -> radioButtonLow.isChecked
+            else -> radioButtonLow.isChecked
         }
 
         tvAddNote.text = "Jegyzet módosítása"
