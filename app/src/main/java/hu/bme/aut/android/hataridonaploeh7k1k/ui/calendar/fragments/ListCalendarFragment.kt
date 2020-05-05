@@ -34,33 +34,14 @@ class ListCalendarFragment : Fragment() {
         return view
     }
 
-    fun initialView(view: View) {
-        val add_button: Button = view.findViewById<Button>(R.id.button_add_event)
-        add_button.setOnClickListener {
+    private fun initialView(view: View) {
+        val addButton: Button = view.findViewById<Button>(R.id.button_add_event)
+        addButton.setOnClickListener {
             val createEventIntent = Intent(context, CreateEventActivity::class.java)
             startActivity(createEventIntent)
         }
 
-        val recyclerView: RecyclerView = view.findViewById(R.id.rvEvents)  //TODO
-        recyclerView.addOnItemTouchListener(RecyclerViewItemClickListener(context, recyclerView, object: RecyclerViewItemClickListener.OnItemClickListener{
-            override fun onItemClick(view: View?, position: Int) { }
-
-            override fun onLongItemClick(view: View?, position: Int) {
-                val popup = PopupMenu(view!!.context, view)
-                popup.inflate(R.menu.menu_note)
-                popup.setOnMenuItemClickListener { item ->
-                    when (item.itemId) {
-                        R.id.delete -> { return@setOnMenuItemClickListener true
-                        }
-                        R.id.modify -> { return@setOnMenuItemClickListener true //TODO
-                        }
-                    }
-                    return@setOnMenuItemClickListener false
-                }
-            }
-
-        }))
-
+        val recyclerView: RecyclerView = view.findViewById(R.id.rvEvents)
 
         eventsAdapter = EventsAdapter(activity?.applicationContext)
         recyclerView.layoutManager = LinearLayoutManager(activity).apply {
@@ -68,6 +49,40 @@ class ListCalendarFragment : Fragment() {
             stackFromEnd = false
         }
         recyclerView.adapter = eventsAdapter
+
+        recyclerView.addOnItemTouchListener(RecyclerViewItemClickListener(context, recyclerView, object: RecyclerViewItemClickListener.OnItemClickListener{
+            override fun onItemClick(view: View?, position: Int) {  }  //TODO
+
+            override fun onLongItemClick(view: View?, position: Int) {
+                val popup = PopupMenu(view!!.context, view)
+                popup.inflate(R.menu.menu_note)
+                popup.setOnMenuItemClickListener { item ->
+                    when (item.itemId) {
+                        R.id.delete -> {
+                            FirebaseDatabase.getInstance().reference.child("events").child(eventsAdapter.getEvent(position).key.toString()).removeValue()
+                            eventsAdapter.deleteEvent(position)
+                            return@setOnMenuItemClickListener true
+                        }
+                        R.id.modify -> {
+                            val modifyEventIntent = Intent(context, CreateEventActivity::class.java)
+                            modifyEventIntent.putExtra("event title",  eventsAdapter.getEvent(position).title)
+                            modifyEventIntent.putExtra("event date",  eventsAdapter.getEvent(position).date)
+                            modifyEventIntent.putExtra("event time",  eventsAdapter.getEvent(position).time)
+                            modifyEventIntent.putExtra("event desc",  eventsAdapter.getEvent(position).description)
+                            modifyEventIntent.putExtra("note location",  eventsAdapter.getEvent(position).location)
+
+                            FirebaseDatabase.getInstance().reference.child("events").child(eventsAdapter.getEvent(position).key.toString()).setValue(null)
+                            eventsAdapter.deleteEvent(position)
+                            startActivity(modifyEventIntent)
+                            return@setOnMenuItemClickListener true
+                        }
+                    }
+                    return@setOnMenuItemClickListener false
+                }
+                popup.show()
+            }
+
+        }))
 
         initEventsListener()
     }
@@ -84,13 +99,12 @@ class ListCalendarFragment : Fragment() {
 
                 override fun onChildChanged(dataSnapshot: DataSnapshot, s: String?) {
                     val changedEvent = dataSnapshot.getValue<Event>(Event::class.java)
-                    Toast.makeText(context, changedEvent!!.title + "megváltozott", Toast.LENGTH_SHORT).show()
-
+                    Toast.makeText(context, changedEvent!!.title + " megváltozott", Toast.LENGTH_SHORT).show()
                 }
 
                 override fun onChildRemoved(dataSnapshot: DataSnapshot) {
                     val removedEvent = dataSnapshot.getValue<Event>(Event::class.java)
-                    Toast.makeText(context, removedEvent!!.title + "törölve", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, removedEvent!!.title + " törölve", Toast.LENGTH_SHORT).show()
                 }
 
                 override fun onChildMoved(dataSnapshot: DataSnapshot, s: String?) {
