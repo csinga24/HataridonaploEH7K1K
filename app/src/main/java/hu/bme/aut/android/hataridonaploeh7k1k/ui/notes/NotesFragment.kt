@@ -2,7 +2,6 @@ package hu.bme.aut.android.hataridonaploeh7k1k.ui.notes
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -20,7 +19,6 @@ import hu.bme.aut.android.hataridonaploeh7k1k.R
 import hu.bme.aut.android.hataridonaploeh7k1k.data.Note
 import hu.bme.aut.android.hataridonaploeh7k1k.extension.RecyclerViewItemClickListener
 import hu.bme.aut.android.hataridonaploeh7k1k.ui.notes.adapter.NotesAdapter
-import kotlinx.android.synthetic.main.activity_create_note.*
 
 class NotesFragment : Fragment() {
 

@@ -34,7 +34,7 @@ class CreateNoteActivity : AppCompatActivity() {
 
     var readyText:String = "Új jegyzet hozzáadva!"
 
-    var user: FirebaseUser? = com.google.firebase.auth.FirebaseAuth.getInstance().currentUser
+    var userId: String = com.google.firebase.auth.FirebaseAuth.getInstance().currentUser!!.uid
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -162,7 +162,7 @@ class CreateNoteActivity : AppCompatActivity() {
 
     private fun uploadNote(imageUrl: String?){
         val key = FirebaseDatabase.getInstance().reference.child("notes").push().key ?: return
-        val newNote = Note(key, user?.uid, note_title.text.toString(), checkPriority(), note_desc.text.toString(), imageUrl)
+        val newNote = Note(key, userId, note_title.text.toString(), checkPriority(), note_desc.text.toString(), imageUrl)
         FirebaseDatabase.getInstance().reference
             .child("notes")
             .child(key)

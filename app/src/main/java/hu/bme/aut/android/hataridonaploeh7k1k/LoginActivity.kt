@@ -25,7 +25,7 @@ class LoginActivity : AppCompatActivity() {
 
     private fun validateForm() = etEmail.validateNonEmpty() && etPassword.validateNonEmpty()
 
-    private fun registerClick() {  //TODO
+    private fun registerClick() {
         if (!validateForm()) {
             return
         }
@@ -39,7 +39,7 @@ class LoginActivity : AppCompatActivity() {
                     .build()
                 firebaseUser?.updateProfile(profileChangeRequest)
 
-                Toast.makeText(this,"Registration successful", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this,"Regisztráció sikeres", Toast.LENGTH_SHORT).show()
             }
             .addOnFailureListener { exception ->
                 Toast.makeText(this, exception.message, Toast.LENGTH_SHORT).show()
