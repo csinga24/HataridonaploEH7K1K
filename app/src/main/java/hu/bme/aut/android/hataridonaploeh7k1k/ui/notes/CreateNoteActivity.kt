@@ -10,13 +10,13 @@ import android.os.Bundle
 import android.provider.MediaStore
 import android.text.Editable
 import android.view.View
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
 import hu.bme.aut.android.hataridonaploeh7k1k.R
 import hu.bme.aut.android.hataridonaploeh7k1k.data.Note
+import hu.bme.aut.android.hataridonaploeh7k1k.extension.showText
 import hu.bme.aut.android.hataridonaploeh7k1k.extension.validateNonEmpty
 import kotlinx.android.synthetic.main.activity_create_note.*
 import java.io.ByteArrayOutputStream
@@ -31,9 +31,9 @@ class CreateNoteActivity : AppCompatActivity() {
         private const val PICK_IMAGE = 2
     }
 
-    var readyText:String = "Új jegyzet hozzáadva!"
-
-    var userId: String = com.google.firebase.auth.FirebaseAuth.getInstance().currentUser!!.uid
+    private var readyText:String = "Új jegyzet hozzáadva!"
+    private var userId: String = com.google.firebase.auth.FirebaseAuth.getInstance().currentUser!!.uid
+    private var keyOfNoteToModify: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,6 +52,7 @@ class CreateNoteActivity : AppCompatActivity() {
 
     @SuppressLint("SetTextI18n")
     private fun getExtras(intent: Intent){
+        keyOfNoteToModify = intent.getStringExtra("note key")
         val title: String? = intent.getStringExtra("note title")
         note_title.text = Editable.Factory.getInstance().newEditable(title)
         val desc: String? = intent.getStringExtra("note desc")
@@ -67,11 +68,11 @@ class CreateNoteActivity : AppCompatActivity() {
             }
         }
 
-        when (intent.getStringExtra("note priority")){  //TODO
-            Note.Priority.HIGH.name -> radioButtonHigh.isChecked
-            Note.Priority.MEDIUM.name -> radioButtonMedium.isChecked
-            Note.Priority.LOW.name -> radioButtonLow.isChecked
-            else -> radioButtonLow.isChecked
+        when (intent.getStringExtra("note priority")){
+            Note.Priority.HIGH.name -> radioButtonHigh.isChecked = true
+            Note.Priority.MEDIUM.name -> radioButtonMedium.isChecked = true
+            Note.Priority.LOW.name -> radioButtonLow.isChecked = true
+            else -> radioButtonLow.isChecked = true
         }
 
         tvAddNote.text = "Jegyzet módosítása"
@@ -162,16 +163,30 @@ class CreateNoteActivity : AppCompatActivity() {
     }
 
     private fun uploadNote(imageUrl: String?){
-        val key = FirebaseDatabase.getInstance().reference.child("notes").push().key ?: return
-        val newNote = Note(key, userId, note_title.text.toString(), checkPriority(), note_desc.text.toString(), imageUrl)
-        FirebaseDatabase.getInstance().reference
-            .child("notes")
-            .child(key)
-            .setValue(newNote)
-            .addOnCompleteListener {
-                Toast.makeText(this, readyText, Toast.LENGTH_SHORT).show()
-                finish()
-            }
+        if(keyOfNoteToModify == null) {
+            val key = FirebaseDatabase.getInstance().reference.child("notes").push().key ?: return
+            val newNote = Note(key, userId, note_title.text.toString(), checkPriority(), note_desc.text.toString(), imageUrl)
+            FirebaseDatabase.getInstance().reference
+                .child("notes")
+                .child(key)
+                .setValue(newNote)
+                .addOnCompleteListener {
+                   readyText.showText(this)
+                    finish()
+                }
+        }
+        else{
+            val modifiedNote = Note(keyOfNoteToModify, userId, note_title.text.toString(), checkPriority(), note_desc.text.toString(), imageUrl)
+            FirebaseDatabase.getInstance().reference
+                .child("notes")
+                .child(keyOfNoteToModify!!)
+                .setValue(modifiedNote)
+                .addOnCompleteListener {
+                    readyText.showText(this)
+                    finish()
+                }
+
+        }
     }
 
     private fun checkPriority(): Note.Priority {
@@ -183,6 +198,10 @@ class CreateNoteActivity : AppCompatActivity() {
             else -> priority = Note.Priority.LOW
         }
         return priority
+    }
+
+    override fun onBackPressed() {
+        sendClick()
     }
 
 }

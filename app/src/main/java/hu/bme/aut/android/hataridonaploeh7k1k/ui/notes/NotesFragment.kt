@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.PopupMenu
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -18,6 +17,7 @@ import com.google.firebase.database.FirebaseDatabase
 import hu.bme.aut.android.hataridonaploeh7k1k.R
 import hu.bme.aut.android.hataridonaploeh7k1k.data.Note
 import hu.bme.aut.android.hataridonaploeh7k1k.extension.RecyclerViewItemClickListener
+import hu.bme.aut.android.hataridonaploeh7k1k.extension.showText
 import hu.bme.aut.android.hataridonaploeh7k1k.ui.notes.adapter.NotesAdapter
 
 class NotesFragment : Fragment() {
@@ -34,8 +34,8 @@ class NotesFragment : Fragment() {
         return view
     }
 
-    private fun initialView(view: View){
-        val addButton= view.findViewById<Button>(R.id.button_add_note)
+    private fun initialView(view: View) {
+        val addButton = view.findViewById<Button>(R.id.button_add_note)
         addButton.setOnClickListener {
             val createNoteIntent = Intent(context, CreateNoteActivity::class.java)
             startActivity(createNoteIntent)
@@ -43,36 +43,42 @@ class NotesFragment : Fragment() {
 
         val recyclerView: RecyclerView = view.findViewById(R.id.rvNotes)
         recyclerView.addOnItemTouchListener(
-            RecyclerViewItemClickListener(context, recyclerView, object : RecyclerViewItemClickListener.OnItemClickListener{
-                override fun onItemClick(view: View?, position: Int) {}
+            RecyclerViewItemClickListener(
+                context,
+                recyclerView,
+                object : RecyclerViewItemClickListener.OnItemClickListener {
+                    override fun onItemClick(view: View?, position: Int) { } //TODO?
 
-                override fun onLongItemClick(view: View?, position: Int) {
-                    val popup = PopupMenu(view!!.context, view)
-                    popup.inflate(R.menu.menu_note)
-                    popup.setOnMenuItemClickListener { item ->
-                        when (item.itemId) {
-                            R.id.delete -> {
-                                FirebaseDatabase.getInstance().reference.child("notes").child(notesAdapter.getNote(position).key.toString()).removeValue()
-                                notesAdapter.deleteNote(position)
-                                return@setOnMenuItemClickListener true
+                    override fun onLongItemClick(view: View?, position: Int) {
+                        val popup = PopupMenu(view!!.context, view)
+                        popup.inflate(R.menu.menu_note)
+                        popup.setOnMenuItemClickListener { item ->
+                            when (item.itemId) {
+                                R.id.delete -> {
+                                    FirebaseDatabase.getInstance().reference.child("notes")
+                                        .child(notesAdapter.getNote(position).key.toString())
+                                        .removeValue()
+                                    notesAdapter.deleteNote(position)
+                                    return@setOnMenuItemClickListener true
+                                }
+                                R.id.modify -> {
+                                    val modifyNoteIntent =
+                                        Intent(context, CreateNoteActivity::class.java)
+                                    modifyNoteIntent.putExtra("note title", notesAdapter.getNote(position).title)
+                                    modifyNoteIntent.putExtra("note priority", notesAdapter.getNote(position).priority.name)
+                                    modifyNoteIntent.putExtra("note desc", notesAdapter.getNote(position).description)
+                                    modifyNoteIntent.putExtra("note img", notesAdapter.getNote(position).imageUrl)
+                                    modifyNoteIntent.putExtra("note key", notesAdapter.getNote(position).key)
+                                    notesAdapter.deleteNote(position)
+                                    startActivity(modifyNoteIntent)
+                                    return@setOnMenuItemClickListener true
+                                }
                             }
-                            R.id.modify -> {
-                                val modifyNoteIntent = Intent(context, CreateNoteActivity::class.java)
-                                modifyNoteIntent.putExtra("note title",  notesAdapter.getNote(position).title)
-                                modifyNoteIntent.putExtra("note priority",  notesAdapter.getNote(position).priority.name)
-                                modifyNoteIntent.putExtra("note desc",  notesAdapter.getNote(position).description)
-                                modifyNoteIntent.putExtra("note img",  notesAdapter.getNote(position).imageUrl)
-                                FirebaseDatabase.getInstance().reference.child("notes").child(notesAdapter.getNote(position).key.toString()).setValue(null)
-                                notesAdapter.deleteNote(position)  //TODO
-                                startActivity(modifyNoteIntent)
-                                return@setOnMenuItemClickListener true
-                            }
+                            false
                         }
-                        false
+                        popup.show()
                     }
-                    popup.show()
-                }
-            })
+                })
         )
 
         notesAdapter = NotesAdapter(activity?.applicationContext)
@@ -96,12 +102,11 @@ class NotesFragment : Fragment() {
 
                 override fun onChildChanged(dataSnapshot: DataSnapshot, s: String?) {
                     val changedNote = dataSnapshot.getValue<Note>(Note::class.java)
-                    Toast.makeText(context, changedNote!!.title + "megváltozott", Toast.LENGTH_SHORT).show()
+                    notesAdapter.addNote(changedNote)
                 }
 
                 override fun onChildRemoved(dataSnapshot: DataSnapshot) {
-                    val removedNote = dataSnapshot.getValue<Note>(Note::class.java)
-                    Toast.makeText(context, removedNote!!.title + "törölve", Toast.LENGTH_SHORT).show()
+                    "Jegyzet törölve!".showText(context)
                 }
 
                 override fun onChildMoved(dataSnapshot: DataSnapshot, s: String?) {
