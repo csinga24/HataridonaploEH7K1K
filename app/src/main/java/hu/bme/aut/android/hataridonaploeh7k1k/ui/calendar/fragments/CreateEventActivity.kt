@@ -17,6 +17,7 @@ import hu.bme.aut.android.hataridonaploeh7k1k.R
 import hu.bme.aut.android.hataridonaploeh7k1k.data.Event
 import hu.bme.aut.android.hataridonaploeh7k1k.extension.dateToText
 import hu.bme.aut.android.hataridonaploeh7k1k.extension.locationToText
+import hu.bme.aut.android.hataridonaploeh7k1k.extension.showText
 import hu.bme.aut.android.hataridonaploeh7k1k.extension.validateNonEmpty
 import kotlinx.android.synthetic.main.activity_create_event.*
 import java.util.*
@@ -24,8 +25,9 @@ import java.util.*
 
 class CreateEventActivity : AppCompatActivity(), DatePickerDialogFragment.DateListener {
 
-    var user: FirebaseUser? = com.google.firebase.auth.FirebaseAuth.getInstance().currentUser
-    private var readyText = "Új esemény hozzáadva"
+    private var user: FirebaseUser? = com.google.firebase.auth.FirebaseAuth.getInstance().currentUser
+    private var readyText = "Új esemény hozzáadva!"
+    private var keyOfModifiedEvent: String? = null
 
     private val MAP_REQUEST = 4
 
@@ -44,7 +46,6 @@ class CreateEventActivity : AppCompatActivity(), DatePickerDialogFragment.DateLi
         event_location.text = "  -  "
         event_location.setOnClickListener { pickPointOnMap() }
 
-        val intent: Intent = intent;
         if(intent.getStringExtra("event title") != null) {
             getExtras(intent)
         }
@@ -52,6 +53,7 @@ class CreateEventActivity : AppCompatActivity(), DatePickerDialogFragment.DateLi
 
     @SuppressLint("SetTextI18n")
     private fun getExtras(intent: Intent){
+        keyOfModifiedEvent = intent.getStringExtra("event key")
         val title: String? = intent.getStringExtra("event title")
         event_title.text = Editable.Factory.getInstance().newEditable(title)
         val desc: String? = intent.getStringExtra("event desc")
@@ -83,17 +85,35 @@ class CreateEventActivity : AppCompatActivity(), DatePickerDialogFragment.DateLi
         if (!validateForm()) {
             return
         }
-        val key = FirebaseDatabase.getInstance().reference.child("events").push().key ?: return
-        val newEvent =
-            Event(key, user?.uid, event_title.text.toString(), event_location.text.toString(), event_date.text.toString(), event_time.text.toString(), event_desc.text.toString())
-        FirebaseDatabase.getInstance().reference
-            .child("events")
-            .child(key)
-            .setValue(newEvent)
-            .addOnCompleteListener {
-                Toast.makeText(this, readyText, Toast.LENGTH_SHORT).show()
-                finish()
-            }
+        if(keyOfModifiedEvent == null) {
+            val key = FirebaseDatabase.getInstance().reference.child("events").push().key ?: return
+            val newEvent =
+                Event(key, user?.uid, event_title.text.toString(), event_location.text.toString(),
+                    event_date.text.toString(), event_time.text.toString(), event_desc.text.toString()
+                )
+            FirebaseDatabase.getInstance().reference
+                .child("events")
+                .child(key)
+                .setValue(newEvent)
+                .addOnCompleteListener {
+                    readyText.showText(this)
+                    finish()
+                }
+        }
+        else{
+            val modifiedEvent =
+                Event(keyOfModifiedEvent, user?.uid, event_title.text.toString(), event_location.text.toString(),
+                    event_date.text.toString(), event_time.text.toString(), event_desc.text.toString()
+                )
+            FirebaseDatabase.getInstance().reference
+                .child("events")
+                .child(keyOfModifiedEvent!!)
+                .setValue(modifiedEvent)
+                .addOnCompleteListener {
+                    readyText.showText(this)
+                    finish()
+                }
+        }
     }
 
     private fun showDatePickerDialog() {
@@ -132,5 +152,9 @@ class CreateEventActivity : AppCompatActivity(), DatePickerDialogFragment.DateLi
                 event_location.text = latLng.locationToText(this)
             }
         }
+    }
+
+    override fun onBackPressed() {
+        sendClick()
     }
 }
