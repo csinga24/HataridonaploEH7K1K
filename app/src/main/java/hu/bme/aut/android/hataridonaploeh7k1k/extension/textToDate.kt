@@ -6,9 +6,10 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 fun String.textToDate(): Calendar {
-
     val cal = Calendar.getInstance ();
-    val sdf: SimpleDateFormat = SimpleDateFormat("yyyy.mm.dd", Locale.ENGLISH);
-    cal.time = sdf.parse(this);
+    val list = this.split('.')
+    cal.set(Calendar.YEAR, list[0].toInt())
+    cal.set(Calendar.MONTH, list[1].toInt()-1)
+    cal.set(Calendar.DAY_OF_MONTH, list[2].toInt())
     return cal
 }
