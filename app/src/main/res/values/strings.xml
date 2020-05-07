@@ -4,7 +4,7 @@
     <string name="login">Bejelentkezés</string>
     <string name="reg">Regisztráció</string>
 
-    <string name="title_activity_menu">MenuActivity</string>
+    <string name="title_activity_menu">HatáridőnaplóByCsenge</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="nav_header_title">Android Studio</string>
@@ -39,5 +39,6 @@
     <string name="location">Helyszín</string>
     <string name="time">Idő</string>
     <string name="reg_data">Töltsd ki az adataidat a regisztrációhoz!</string>
+    <string name="title_activity_show_event">HatáridőnaplóByCsenge</string>
 
 </resources>

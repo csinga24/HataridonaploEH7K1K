@@ -43,7 +43,6 @@ class CreateNoteActivity : AppCompatActivity() {
         btnPicture.setOnClickListener { attachPicClick() }
         btnCamera.setOnClickListener { makePicClick() }
 
-        val intent: Intent = intent;
         if(intent.getStringExtra("note title") != null) {
             getExtras(intent)
         }

@@ -1,11 +1,15 @@
 package hu.bme.aut.android.hataridonaploeh7k1k.ui.calendar.fragments
 
+import android.app.Notification
+import android.app.NotificationManager
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.CalendarView
 import android.widget.Toast
+import androidx.core.content.ContextCompat.getSystemService
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -50,6 +54,7 @@ class CalCalendarFragment : Fragment() {
 
             eventsAdapter.deleteAll()
             initEventsListener()
+
         })
 
         eventsAdapter = EventsAdapter(activity?.applicationContext)
