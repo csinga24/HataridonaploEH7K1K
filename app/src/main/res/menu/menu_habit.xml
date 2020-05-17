@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/hdelete"
+        android:title="@string/delete"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/hmodifydate"
+        android:title="@string/change_habits_date"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/hback"
+        android:title="@string/back"
+        app:showAsAction="always" />
+</menu>
