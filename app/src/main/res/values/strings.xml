@@ -13,11 +13,12 @@
 
     <string name="menu_calendar">Naptár</string>
     <string name="menu_notes">Jegyzetek</string>
-    <string name="menu_habittracker">Habit-tracker</string>
+    <string name="menu_habittracker">Napi szokások</string>
     <string name="logout">Kijelentkezés</string>
     <string name="napt_r_n_zet">Naptár nézet</string>
     <string name="lista_n_zet">Lista nézet</string>
     <string name="add_note">Új Jegyzet hozzáadása</string>
+    <string name="add_habit">Új szokás hozzáadása</string>
     <string name="add">Hozzáadás</string>
     <string name="action_profil">Profil</string>
     <string name="action_settings">Beállítások</string>
@@ -40,5 +41,8 @@
     <string name="time">Idő</string>
     <string name="reg_data">Töltsd ki az adataidat a regisztrációhoz!</string>
     <string name="title_activity_show_event">HatáridőnaplóByCsenge</string>
+    <string name="ready">Kész?</string>
+    <string name="habit_title">Szokás neve:</string>
+    <string name="change_habits_date">Szokás dátumának megváltoztatása</string>
 
 </resources>

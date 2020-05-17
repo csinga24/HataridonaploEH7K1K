@@ -2,6 +2,7 @@ package hu.bme.aut.android.hataridonaploeh7k1k.ui.calendar.fragments
 
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.app.TimePickerDialog.OnTimeSetListener
 import android.content.Intent
@@ -23,7 +24,7 @@ import kotlinx.android.synthetic.main.activity_create_event.*
 import java.util.*
 
 
-class CreateEventActivity : AppCompatActivity(), DatePickerDialogFragment.DateListener {
+class CreateEventActivity : AppCompatActivity() {
 
     private var user: FirebaseUser? = com.google.firebase.auth.FirebaseAuth.getInstance().currentUser
     private var readyText = "Új esemény hozzáadva!"
@@ -116,9 +117,19 @@ class CreateEventActivity : AppCompatActivity(), DatePickerDialogFragment.DateLi
         }
     }
 
+    @SuppressLint("SetTextI18n")
     private fun showDatePickerDialog() {
-        val datePicker = DatePickerDialogFragment()
-        datePicker.show(supportFragmentManager, "Date")
+        val datePickerListener =
+            DatePickerDialog.OnDateSetListener { view, year, month, dayOfMonth ->
+                val monthReal = month - 1
+                event_date.text = "$year.$monthReal.$dayOfMonth"
+            }
+        val c = Calendar.getInstance()
+        val datePickerDialog = DatePickerDialog(
+            this, datePickerListener,
+            c[Calendar.YEAR], c[Calendar.MONTH], c[Calendar.DAY_OF_MONTH]
+        )
+        datePickerDialog.show()
     }
 
     @SuppressLint("SetTextI18n")
@@ -132,10 +143,6 @@ class CreateEventActivity : AppCompatActivity(), DatePickerDialogFragment.DateLi
             c[Calendar.HOUR_OF_DAY], c[Calendar.MINUTE] + 5, true
         )
         timePickerDialog.show()
-    }
-
-    override fun onDateSelected(date: Calendar) {
-        event_date.text = date.dateToText()
     }
 
     private fun pickPointOnMap() {

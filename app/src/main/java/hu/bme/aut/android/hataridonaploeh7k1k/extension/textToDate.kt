@@ -2,7 +2,6 @@
 
 package hu.bme.aut.android.hataridonaploeh7k1k.extension
 
-import java.text.SimpleDateFormat
 import java.util.*
 
 fun String.textToDate(): Calendar {
