@@ -1,15 +1,11 @@
 package hu.bme.aut.android.hataridonaploeh7k1k.ui.calendar.fragments
 
-import android.app.Notification
-import android.app.NotificationManager
-import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.CalendarView
-import android.widget.Toast
-import androidx.core.content.ContextCompat.getSystemService
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -19,6 +15,7 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import hu.bme.aut.android.hataridonaploeh7k1k.R
 import hu.bme.aut.android.hataridonaploeh7k1k.data.Event
+import hu.bme.aut.android.hataridonaploeh7k1k.extension.RecyclerViewItemClickListener
 import hu.bme.aut.android.hataridonaploeh7k1k.extension.dateToText
 import hu.bme.aut.android.hataridonaploeh7k1k.ui.calendar.adapter.EventsAdapter
 import java.util.*
@@ -57,6 +54,20 @@ class CalCalendarFragment : Fragment() {
 
         })
 
+        recyclerView.addOnItemTouchListener(RecyclerViewItemClickListener(context, recyclerView, object: RecyclerViewItemClickListener.OnItemClickListener {
+            override fun onItemClick(view: View?, position: Int) {
+                val showEventIntent = Intent(context, ShowEventActivity::class.java)
+                showEventIntent.putExtra("event title", eventsAdapter.getEvent(position).title)
+                showEventIntent.putExtra("event date", eventsAdapter.getEvent(position).date)
+                showEventIntent.putExtra("event time", eventsAdapter.getEvent(position).time)
+                showEventIntent.putExtra("event desc", eventsAdapter.getEvent(position).description)
+                showEventIntent.putExtra("event location", eventsAdapter.getEvent(position).location)
+                startActivity(showEventIntent)
+            }
+
+            override fun onLongItemClick(view: View?, position: Int) {}
+        }))
+
         eventsAdapter = EventsAdapter(activity?.applicationContext)
         recyclerView.layoutManager = LinearLayoutManager(activity).apply {
             reverseLayout = false
@@ -75,6 +86,7 @@ class CalCalendarFragment : Fragment() {
                     val newEvent = dataSnapshot.getValue<Event>(Event::class.java)
                     if(newEvent!!.date == selectedDate.dateToText()) {
                         eventsAdapter.addEvent(newEvent)
+                        eventsAdapter.sortingByTime()
                     }
                 }
 
