@@ -1,5 +1,7 @@
 package hu.bme.aut.android.hataridonaploeh7k1k.ui.calendar.fragments
 
+import android.app.Activity
+import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,7 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.PopupMenu
-import android.widget.Toast
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -19,11 +21,19 @@ import hu.bme.aut.android.hataridonaploeh7k1k.R
 import hu.bme.aut.android.hataridonaploeh7k1k.data.Event
 import hu.bme.aut.android.hataridonaploeh7k1k.extension.RecyclerViewItemClickListener
 import hu.bme.aut.android.hataridonaploeh7k1k.extension.showText
+import hu.bme.aut.android.hataridonaploeh7k1k.extension.textToDate
 import hu.bme.aut.android.hataridonaploeh7k1k.ui.calendar.adapter.EventsAdapter
+import kotlinx.android.synthetic.main.fragment_calendarlist.*
+import java.util.*
 
 class ListCalendarFragment : Fragment() {
 
     private lateinit var eventsAdapter: EventsAdapter
+    private var eventsFilter: String =  ""
+
+    companion object {
+        const val REQUEST_NEW_EVENT = 11
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -39,7 +49,16 @@ class ListCalendarFragment : Fragment() {
         val addButton: Button = view.findViewById<Button>(R.id.button_add_event)
         addButton.setOnClickListener {
             val createEventIntent = Intent(context, CreateEventActivity::class.java)
-            startActivity(createEventIntent)
+            startActivityForResult(createEventIntent, REQUEST_NEW_EVENT)
+        }
+
+        eventsFilter = "minden"
+        val filterText = view.findViewById<TextView>(R.id.text_filter_event)
+        filterText.text = eventsFilter
+
+        val filterButton = view.findViewById<Button>(R.id.button_filter_event)
+        filterButton.setOnClickListener {
+            chooseFilterEventsDialog()
         }
 
         val recyclerView: RecyclerView = view.findViewById(R.id.rvEvents)
@@ -102,12 +121,16 @@ class ListCalendarFragment : Fragment() {
 
                 override fun onChildAdded(dataSnapshot: DataSnapshot, s: String?) {
                     val newEvent = dataSnapshot.getValue<Event>(Event::class.java)
-                    eventsAdapter.addEvent(newEvent)
+                    if (newEvent != null) {
+                        filteringEvents(newEvent)
+                    }
                 }
 
                 override fun onChildChanged(dataSnapshot: DataSnapshot, s: String?) {
                     val changedEvent = dataSnapshot.getValue<Event>(Event::class.java)
-                    eventsAdapter.addEvent(changedEvent)
+                    if (changedEvent != null) {
+                        filteringEvents(changedEvent)
+                    }
                 }
 
                 override fun onChildRemoved(dataSnapshot: DataSnapshot) {
@@ -120,5 +143,59 @@ class ListCalendarFragment : Fragment() {
                 override fun onCancelled(databaseError: DatabaseError) {
                 }
             })
+    }
+
+    fun refreshCalendarList(){
+        eventsAdapter.deleteAll()
+        initEventsListener()
+    }
+
+    private fun chooseFilterEventsDialog(){
+        lateinit var dialog: AlertDialog
+        val filters = arrayOf("minden","csak aktuális","csak aktuális hónap","csak aktuális hét")
+        val builder = AlertDialog.Builder(context)
+
+        builder.setTitle("Ezekre az eseményekre szűrnék: ")
+        builder.setSingleChoiceItems(filters,-1) { _, which->
+            eventsFilter = filters[which]
+            text_filter_event.text = eventsFilter
+            refreshCalendarList()
+            dialog.dismiss()
+        }
+        dialog = builder.create()
+        dialog.show()
+    }
+
+    private fun filteringEvents(event: Event){
+        val today = Calendar.getInstance()
+        when (eventsFilter){
+            "minden"-> {
+                eventsAdapter.addEvent(event)
+            }
+            "csak aktuális" -> {
+                if(event.date.textToDate() >= today){
+                    eventsAdapter.addEvent(event)
+                }
+            }
+            "csak aktuális hónap" -> {
+                if(event.date.textToDate() >= today && event.date.textToDate()[Calendar.MONTH] == today[Calendar.MONTH]){
+                    eventsAdapter.addEvent(event)
+                }
+            }
+            "csak aktuális hét" -> {
+                if(event.date.textToDate() >= today && event.date.textToDate()[Calendar.MONTH] == today[Calendar.MONTH] &&
+                    event.date.textToDate()[Calendar.DAY_OF_MONTH] <= today[Calendar.DAY_OF_MONTH] + 7){
+                    eventsAdapter.addEvent(event)
+                }
+            }
+        }
+        eventsAdapter.sortingByDate()
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_NEW_EVENT) {
+            refreshCalendarList()
+        }
     }
 }
