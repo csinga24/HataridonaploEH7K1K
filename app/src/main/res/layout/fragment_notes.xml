@@ -8,11 +8,31 @@
 
     <Button
         android:id="@+id/button_add_note"
+        style="@style/BlackButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/add_note"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/text_filter_notes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:text="minden"
+        app:layout_constraintBottom_toTopOf="@+id/button_add_note"
+        app:layout_constraintStart_toEndOf="@+id/button_filter_notes" />
+
+    <Button
+        android:id="@+id/button_filter_notes"
+        style="@style/BlackButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="132dp"
+        android:text="@string/filter"
+        app:layout_constraintBottom_toTopOf="@+id/button_add_note"
         app:layout_constraintStart_toStartOf="parent" />
 
     <LinearLayout
@@ -28,7 +48,8 @@
             android:name="hu.bme.aut.android.hataridonaploeh7k1k.ui.notes.NotesFragment"
             android:layout_width="match_parent"
             android:layout_height="626dp"
-            tools:listitem="@layout/card_note"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            tools:listitem="@layout/card_note" />
+
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

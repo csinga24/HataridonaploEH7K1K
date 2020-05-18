@@ -17,19 +17,41 @@
             android:id="@+id/rvEvents"
             android:name="hu.bme.aut.android.hataridonaploeh7k1k.ui.calendar.fragments.ListCalendarFragment"
             android:layout_width="match_parent"
-            android:layout_height="520dp"
-            tools:listitem="@layout/card_event"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+            android:layout_height="551dp"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            tools:listitem="@layout/card_event" />
+
     </LinearLayout>
 
     <Button
         android:id="@+id/button_add_event"
+        style="@style/BlackButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="450dp"
         android:text="@string/add_event"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/linearLayout2" />
+        app:layout_constraintTop_toTopOf="@+id/linearLayout2"
+        app:layout_constraintVertical_bias="0.9" />
+
+    <Button
+        android:id="@+id/button_filter_event"
+        style="@style/BlackButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="132dp"
+        android:text="@string/filter"
+        app:layout_constraintBottom_toTopOf="@+id/button_add_event"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/text_filter_event"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:text="minden"
+        app:layout_constraintBottom_toTopOf="@+id/button_add_event"
+        app:layout_constraintStart_toEndOf="@+id/button_filter_event" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
