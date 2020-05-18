@@ -80,4 +80,13 @@ class NotesAdapter(private val context: Context?) : RecyclerView.Adapter<NotesAd
         return notesList.get(position)
     }
 
+    fun deleteAll(){
+        notesList.clear()
+        notifyDataSetChanged();
+    }
+
+    fun sortingByPriority(){
+       notesList.sortBy { it }
+    }
+
 }
