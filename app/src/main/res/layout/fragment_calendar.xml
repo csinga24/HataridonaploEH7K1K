@@ -15,6 +15,7 @@
 
     <Button
         android:id="@+id/button_cal"
+        style="@style/BlackButton"
         android:layout_width="200dp"
         android:layout_height="45dp"
         android:text="@string/napt_r_n_zet"
@@ -24,6 +25,7 @@
 
     <Button
         android:id="@+id/button_list"
+        style="@style/BlackButton"
         android:layout_width="200dp"
         android:layout_height="45dp"
         android:text="@string/lista_n_zet"

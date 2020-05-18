@@ -9,6 +9,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_margin="30dp"
         android:orientation="vertical">
 
         <TextView
@@ -20,8 +21,8 @@
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:layout_marginTop="8dp">
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp">
 
             <EditText
                 android:id="@+id/etRegName"
@@ -37,8 +38,8 @@
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:layout_marginTop="8dp">
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp">
 
             <EditText
                 android:id="@+id/etRegEmail"
@@ -54,8 +55,8 @@
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
             android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
             app:passwordToggleEnabled="true">
 
             <EditText
@@ -65,16 +66,17 @@
                 android:hint="Jelszó"
                 android:inputType="textPassword"
                 android:text=""
-                tools:ignore="HardcodedText"/>
+                tools:ignore="HardcodedText" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
         <Button
             android:id="@+id/btnReg"
+            style="@style/BlackButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="12dp"
             android:layout_marginTop="24dp"
+            android:layout_marginBottom="12dp"
             android:padding="12dp"
             android:text="@string/reg" />
 

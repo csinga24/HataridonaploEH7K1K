@@ -44,5 +44,8 @@
     <string name="ready">Kész?</string>
     <string name="habit_title">Szokás neve:</string>
     <string name="change_habits_date">Szokás dátumának megváltoztatása</string>
+    <string name="change_sorting">Sorrend megváltoztatása</string>
+    <string name="filter">Szűrés</string>
+    <string name="all">minden</string>
 
 </resources>

@@ -17,7 +17,9 @@
         android:layout_height="wrap_content"
         android:paddingTop="@dimen/nav_header_vertical_spacing"
         android:text="@string/app_name"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:textColor="@color/colorPrimary"
+        android:textSize="18sp" />
 
     <ImageView
         android:layout_width="wrap_content"
@@ -36,6 +38,7 @@
 
     <Button
         android:id="@+id/nav_logout"
+        style="@style/BlackButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/logout" />

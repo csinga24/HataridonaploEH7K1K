@@ -32,5 +32,9 @@
         <item name="android:textStyle">bold</item>
     </style>
 
+    <style name="BlackButton" parent="TextAppearance.AppCompat.Button">
+        <item name="android:textColor">#FFFFFF</item>
+        <item name="backgroundTint">@color/colorPrimary</item>
+    </style>
 
 </resources>
