@@ -1,5 +1,7 @@
 package hu.bme.aut.android.hataridonaploeh7k1k.ui.notes
 
+import android.app.Activity
+import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.PopupMenu
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -19,10 +22,16 @@ import hu.bme.aut.android.hataridonaploeh7k1k.data.Note
 import hu.bme.aut.android.hataridonaploeh7k1k.extension.RecyclerViewItemClickListener
 import hu.bme.aut.android.hataridonaploeh7k1k.extension.showText
 import hu.bme.aut.android.hataridonaploeh7k1k.ui.notes.adapter.NotesAdapter
+import kotlinx.android.synthetic.main.fragment_notes.*
 
 class NotesFragment : Fragment() {
 
     private lateinit var notesAdapter: NotesAdapter
+    private var notesFilter: String = ""
+
+    companion object {
+        const val REQUEST_NEW_NOTE = 16
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -38,7 +47,16 @@ class NotesFragment : Fragment() {
         val addButton = view.findViewById<Button>(R.id.button_add_note)
         addButton.setOnClickListener {
             val createNoteIntent = Intent(context, CreateNoteActivity::class.java)
-            startActivity(createNoteIntent)
+            startActivityForResult(createNoteIntent, REQUEST_NEW_NOTE)
+        }
+
+        notesFilter = "minden"
+        val filterText = view.findViewById<TextView>(R.id.text_filter_notes)
+        filterText.text = notesFilter
+
+        val filterButton = view.findViewById<Button>(R.id.button_filter_notes)
+        filterButton.setOnClickListener {
+            chooseFilterNotesDialog()
         }
 
         val recyclerView: RecyclerView = view.findViewById(R.id.rvNotes)
@@ -47,7 +65,7 @@ class NotesFragment : Fragment() {
                 context,
                 recyclerView,
                 object : RecyclerViewItemClickListener.OnItemClickListener {
-                    override fun onItemClick(view: View?, position: Int) { } //TODO?
+                    override fun onItemClick(view: View?, position: Int) { }
 
                     override fun onLongItemClick(view: View?, position: Int) {
                         val popup = PopupMenu(view!!.context, view)
@@ -97,12 +115,16 @@ class NotesFragment : Fragment() {
             .addChildEventListener(object : ChildEventListener {
                 override fun onChildAdded(dataSnapshot: DataSnapshot, s: String?) {
                     val newNote = dataSnapshot.getValue<Note>(Note::class.java)
-                    notesAdapter.addNote(newNote)
+                    if (newNote != null) {
+                        filteringNotes(newNote)
+                    }
                 }
 
                 override fun onChildChanged(dataSnapshot: DataSnapshot, s: String?) {
                     val changedNote = dataSnapshot.getValue<Note>(Note::class.java)
-                    notesAdapter.addNote(changedNote)
+                    if (changedNote != null) {
+                        filteringNotes(changedNote)
+                    }
                 }
 
                 override fun onChildRemoved(dataSnapshot: DataSnapshot) {
@@ -116,5 +138,60 @@ class NotesFragment : Fragment() {
                 }
             })
     }
+
+    fun refreshNotes(){
+        notesAdapter.deleteAll()
+        initNotesListener()
+    }
+
+
+    private fun chooseFilterNotesDialog(){
+        lateinit var dialog: AlertDialog
+        val filters = arrayOf("minden","csak fontos","csak átlagos","csak nem fontos")
+        val builder = AlertDialog.Builder(context)
+
+        builder.setTitle("Ezekre a jegyzetekre szűrnék: ")
+        builder.setSingleChoiceItems(filters,-1) { _, which->
+            notesFilter = filters[which]
+            text_filter_notes.text = notesFilter
+            refreshNotes()
+            dialog.dismiss()
+        }
+        dialog = builder.create()
+        dialog.show()
+    }
+
+
+    private fun filteringNotes(note: Note){
+        when (notesFilter){
+            "minden"-> {
+                notesAdapter.addNote(note)
+                notesAdapter.sortingByPriority()
+            }
+            "csak fontos" -> {
+                if(note.priority == Note.Priority.HIGH){
+                    notesAdapter.addNote(note)
+                }
+            }
+            "csak átlagos" -> {
+                if(note.priority == Note.Priority.MEDIUM){
+                    notesAdapter.addNote(note)
+                }
+            }
+            "csak nem fontos" -> {
+                if(note.priority == Note.Priority.LOW){
+                    notesAdapter.addNote(note)
+                }
+            }
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_NEW_NOTE) {
+            refreshNotes()
+        }
+    }
+
 
 }
