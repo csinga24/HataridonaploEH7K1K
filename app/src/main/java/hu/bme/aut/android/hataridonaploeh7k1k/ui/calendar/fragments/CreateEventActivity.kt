@@ -9,7 +9,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.os.Parcelable
 import android.text.Editable
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.gms.maps.model.LatLng
 import com.google.firebase.auth.FirebaseUser
@@ -38,7 +37,7 @@ class CreateEventActivity : AppCompatActivity() {
 
         btnAddNewEvent.setOnClickListener { sendClick() }
 
-        event_date.text = "  -  "
+        event_date.text = Calendar.getInstance().dateToText()
         event_date.setOnClickListener { showDatePickerDialog() }
 
         event_time.text = "  -  "
@@ -80,7 +79,7 @@ class CreateEventActivity : AppCompatActivity() {
         readyText = "Esemény módosítva!"
     }
 
-    private fun validateForm() = event_title.validateNonEmpty() && event_desc.validateNonEmpty()
+    private fun validateForm() = event_title.validateNonEmpty()
 
     private fun sendClick() {
         if (!validateForm()) {
@@ -98,6 +97,7 @@ class CreateEventActivity : AppCompatActivity() {
                 .setValue(newEvent)
                 .addOnCompleteListener {
                     readyText.showText(this)
+                    setResult(Activity.RESULT_OK)
                     finish()
                 }
         }
@@ -121,7 +121,7 @@ class CreateEventActivity : AppCompatActivity() {
     private fun showDatePickerDialog() {
         val datePickerListener =
             DatePickerDialog.OnDateSetListener { view, year, month, dayOfMonth ->
-                val monthReal = month - 1
+                val monthReal = month + 1
                 event_date.text = "$year.$monthReal.$dayOfMonth"
             }
         val c = Calendar.getInstance()
@@ -162,6 +162,11 @@ class CreateEventActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        sendClick()
+        if(keyOfModifiedEvent != null) {
+            sendClick()
+        }
+        else{
+            super.onBackPressed()
+        }
     }
 }

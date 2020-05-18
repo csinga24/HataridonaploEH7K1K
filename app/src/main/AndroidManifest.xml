@@ -46,7 +46,7 @@
             android:label="@string/title_activity_maps" />
         <activity android:name=".ui.notes.CreateNoteActivity" />
         <activity android:name=".ui.calendar.fragments.CreateEventActivity" />
-        <activity android:name=".ui.habittracker.CreateHabitActivity" android:theme="@android:style/Theme.Holo.Light.Dialog" />
+        <activity android:name=".ui.habittracker.CreateHabitActivity" android:theme="@android:style/Theme.Material.Light.Dialog" />
         <activity
             android:name=".MenuActivity"
             android:theme="@style/AppTheme.NoActionBar" />

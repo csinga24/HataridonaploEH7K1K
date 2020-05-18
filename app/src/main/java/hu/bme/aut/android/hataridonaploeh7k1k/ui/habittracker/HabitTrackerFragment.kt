@@ -1,5 +1,6 @@
 package hu.bme.aut.android.hataridonaploeh7k1k.ui.habittracker
 
+import android.app.Activity
 import android.app.DatePickerDialog
 import android.content.Intent
 import android.os.Bundle
@@ -9,8 +10,8 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.PopupMenu
 import android.widget.TextView
+import androidx.core.app.ActivityOptionsCompat
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentTransaction
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.database.ChildEventListener
@@ -32,6 +33,10 @@ class HabitTrackerFragment : Fragment() {
 
     private lateinit var habitsAdapter: HabitsAdapter
     private var today = Calendar.getInstance()
+
+    companion object {
+        const val REQUEST_NEW_HABIT = 8
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -130,9 +135,22 @@ class HabitTrackerFragment : Fragment() {
     }
 
     private fun showNewHabitDialog() {
+        val options = ActivityOptionsCompat.makeSceneTransitionAnimation(
+            requireActivity(),
+            button_add_habit,
+            "create")
         val intent = Intent(context, CreateHabitActivity::class.java)
-        startActivity(intent)
+        intent.putExtra("date", today.dateToText())
+        startActivityForResult(intent, REQUEST_NEW_HABIT, options.toBundle())
     }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_NEW_HABIT) {
+            refreshHabits()
+        }
+    }
+
 
     private fun showDatePickerDialog(position: Int) {
         val datePickerListener = DatePickerDialog.OnDateSetListener { view, year, month, dayOfMonth ->
@@ -141,7 +159,7 @@ class HabitTrackerFragment : Fragment() {
             FirebaseDatabase.getInstance().reference.child("habits")
                 .child(habitsAdapter.getHabit(position).key.toString())
                 .setValue(habitsAdapter.getHabit(position))
-            refresh()
+            refreshHabits()
         }
         val c = Calendar.getInstance()
         val datePickerDialog = context?.let {
@@ -159,7 +177,7 @@ class HabitTrackerFragment : Fragment() {
             val s: String = "$year.$monthReal.$dayOfMonth"
             today = s.textToDate()
             todayDate.text = today.dateToText()
-            refresh()
+            refreshHabits()
         }
         val c = Calendar.getInstance()
         val datePickerDialog = context?.let {
@@ -171,7 +189,7 @@ class HabitTrackerFragment : Fragment() {
         datePickerDialog?.show()
     }
 
-    fun refresh(){
+    fun refreshHabits(){
         getFragmentManager()?.beginTransaction()?.detach(this)?.attach(this)?.commit()
     }
 }

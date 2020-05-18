@@ -128,7 +128,7 @@ class CreateNoteActivity : AppCompatActivity() {
         return res
     }
 
-    private fun validateForm() = note_title.validateNonEmpty() && note_desc.validateNonEmpty()
+    private fun validateForm() = note_title.validateNonEmpty()
 
     private fun sendClick() {
         if (!validateForm()) {
@@ -171,6 +171,7 @@ class CreateNoteActivity : AppCompatActivity() {
                 .setValue(newNote)
                 .addOnCompleteListener {
                    readyText.showText(this)
+                    setResult(Activity.RESULT_OK)
                     finish()
                 }
         }
@@ -200,7 +201,12 @@ class CreateNoteActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        sendClick()
+        if(keyOfNoteToModify != null) {
+            sendClick()
+        }
+        else{
+            super.onBackPressed()
+        }
     }
 
 }

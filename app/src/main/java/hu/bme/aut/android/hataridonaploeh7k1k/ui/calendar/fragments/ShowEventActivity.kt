@@ -1,9 +1,7 @@
 package hu.bme.aut.android.hataridonaploeh7k1k.ui.calendar.fragments
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Toast
-
+import androidx.appcompat.app.AppCompatActivity
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -36,9 +34,7 @@ class ShowEventActivity : AppCompatActivity(), OnMapReadyCallback {
         val desc: String? = intent.getStringExtra("event desc")
         tvEventDesc.text = desc
 
-        if (date != "  -  " && time != "  -  ") {
-            countDown(date!!, time!!)
-        }
+        countDown(date!!, time!!)
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
@@ -55,17 +51,22 @@ class ShowEventActivity : AppCompatActivity(), OnMapReadyCallback {
         var message: String? = "Az esemény lezajlott vagy éppen zajlik."
         val now = Calendar.getInstance()
         if (date == now.dateToText()) {
-            val timeList = time.split(':')
-            val hour = timeList[0].toInt()
-            val minute = timeList[1].toInt()
-            if (hour == now[Calendar.HOUR_OF_DAY]) {
-                if (minute > now[Calendar.MINUTE]) {
-                    val min = minute - now[Calendar.MINUTE]
-                    message = "Az esemény $min perc múlva kezdődik."
+            if(time.contains('-')){
+                message = "Az esemény ma van."
+            }
+            else {
+                val timeList = time.split(':')
+                val hour = timeList[0].toInt()
+                val minute = timeList[1].toInt()
+                if (hour == now[Calendar.HOUR_OF_DAY]) {
+                    if (minute > now[Calendar.MINUTE]) {
+                        val min = minute - now[Calendar.MINUTE]
+                        message = "Az esemény $min perc múlva kezdődik."
+                    }
+                } else if (hour > now[Calendar.HOUR_OF_DAY]) {
+                    val h = hour - now[Calendar.HOUR_OF_DAY]
+                    message = "Az esemény $h óra múlva kezdődik."
                 }
-            } else if (hour > now[Calendar.HOUR_OF_DAY]) {
-                val h = hour - now[Calendar.HOUR_OF_DAY]
-                message = "Az esemény $h óra múlva kezdődik."
             }
         }
         else if(date.textToDate()[Calendar.YEAR] == now[Calendar.YEAR]) {
