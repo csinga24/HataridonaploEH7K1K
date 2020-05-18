@@ -8,7 +8,10 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import hu.bme.aut.android.hataridonaploeh7k1k.R
 import hu.bme.aut.android.hataridonaploeh7k1k.data.Event
+import hu.bme.aut.android.hataridonaploeh7k1k.extension.textToDate
 import kotlinx.android.synthetic.main.card_event.view.*
+import java.util.*
+import java.util.Collections.sort
 
 class EventsAdapter(private val context: Context?) : RecyclerView.Adapter<EventsAdapter.ViewHolder>()  {
 
@@ -60,4 +63,14 @@ class EventsAdapter(private val context: Context?) : RecyclerView.Adapter<Events
         eventsList.clear()
         notifyDataSetChanged();
     }
+
+    fun sortingByDate() {
+        eventsList.sortWith(compareBy<Event> { it.date.textToDate() }.thenBy { it.time })
+    }
+
+    fun sortingByTime(){
+        eventsList.sortBy { it.time }
+    }
+
+
 }
