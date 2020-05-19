@@ -14,22 +14,13 @@
         android:paddingRight="24dp"
         android:paddingTop="56dp">
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:text="@string/app_name"
-            android:textColor="@color/colorHigh"
-            android:textSize="18sp"
-            android:textStyle="bold" />
-
         <ImageView
             android:layout_width="wrap_content"
-            android:layout_height="72dp"
+            android:layout_height="184dp"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="24dp"
-            android:src="@mipmap/ic_launcher" />
+            android:src="@drawable/app_hataridonaplo" />
 
         <TextView
             android:layout_width="match_parent"
