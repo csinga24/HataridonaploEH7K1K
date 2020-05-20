@@ -47,5 +47,12 @@
     <string name="change_sorting">Sorrend megváltoztatása</string>
     <string name="filter">Szűrés</string>
     <string name="all">minden</string>
+    <string name="set_notifications">Értesítések beállítása:</string>
+    <string name="question_time_notification">Mikor szeretnéd megkapni a napi értesítésed?</string>
+    <string name="morning">reggel (8:00)</string>
+    <string name="noon">délben (12:00)</string>
+    <string name="evening">este (18:00)</string>
+    <string name="start_alarm">Értesítések bekapcsolása</string>
+    <string name="cancel_alarm">Értesítések kikapcsolása</string>
 
 </resources>
