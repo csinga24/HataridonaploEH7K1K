@@ -17,7 +17,7 @@ import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
-import hu.bme.aut.android.hataridonaploeh7k1k.menu.ProfilActivity
+import hu.bme.aut.android.hataridonaploeh7k1k.menu.SettingsActivity
 
 
 class MenuActivity : AppCompatActivity() {
@@ -58,9 +58,9 @@ class MenuActivity : AppCompatActivity() {
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.menu, menu)
-        val profil = menu.findItem(R.id.action_profil) as MenuItem
+        val profil = menu.findItem(R.id.action_settings) as MenuItem
         profil.setOnMenuItemClickListener {
-            startActivity(Intent(this, ProfilActivity::class.java))
+            startActivity(Intent(this, SettingsActivity::class.java))
             return@setOnMenuItemClickListener true
         }
         return true
