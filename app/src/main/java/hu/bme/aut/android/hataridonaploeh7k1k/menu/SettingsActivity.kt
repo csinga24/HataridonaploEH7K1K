@@ -9,14 +9,13 @@ import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
-import android.widget.Button
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseUser
 import hu.bme.aut.android.hataridonaploeh7k1k.R
 import hu.bme.aut.android.hataridonaploeh7k1k.extension.showText
 import hu.bme.aut.android.hataridonaploeh7k1k.receiver.NotificationReceiver
+import java.util.*
 
 class SettingsActivity : AppCompatActivity() {
 
@@ -44,7 +43,8 @@ class SettingsActivity : AppCompatActivity() {
 
         val setAlarmButton = findViewById<Button>(R.id.startAlarm)
         setAlarmButton.setOnClickListener {
-            startAlarm()
+            val time: Calendar = getSelectedDate()
+            startAlarm(time)
         }
 
         val cancelAlarmButton = findViewById<Button>(R.id.cancelAlarm)
@@ -54,21 +54,50 @@ class SettingsActivity : AppCompatActivity() {
 
         createNotificationChannel()
     }
+    private fun getSelectedDate(): Calendar {
+        val radioMorning: RadioButton = findViewById(R.id.radioButtonMorning)
+        val radioNoon: RadioButton = findViewById(R.id.radioButtonNoon)
+        val radioEvening: RadioButton = findViewById(R.id.radioButtonEvening)
 
-    fun startAlarm() {
+        val time = Calendar.getInstance()
+
+        when(true) {
+            radioMorning.isChecked -> {
+                time[Calendar.HOUR_OF_DAY] = 8
+                time[Calendar.MINUTE] = 0
+            }
+            radioNoon.isChecked -> {
+                time[Calendar.HOUR_OF_DAY] = 12
+                time[Calendar.MINUTE] = 0
+            }
+            radioEvening.isChecked -> {
+                time[Calendar.HOUR_OF_DAY] = 18
+                time[Calendar.MINUTE] = 0
+            }
+            else -> {
+                time[Calendar.HOUR_OF_DAY] = 8
+                time[Calendar.MINUTE] = 0
+            }
+        }
+        return time
+
+    }
+
+
+    fun startAlarm(selectedTime: Calendar) {
         val manager =
             getSystemService(Context.ALARM_SERVICE) as AlarmManager
 
-        val interval = 60 * 1_000L //every minute
+        val interval = 24 * 60 * 60 * 1_000L //every day
 
         manager.setInexactRepeating(
             AlarmManager.RTC_WAKEUP,
-            System.currentTimeMillis() + 5_000L,
+            selectedTime.timeInMillis + 5_000L,
             interval.toLong(),
             pendingIntent
         )
 
-        "Értesítés beállítva".showText(this)
+        "Értesítés beállítva (${selectedTime[Calendar.HOUR_OF_DAY]}:${selectedTime[Calendar.MINUTE]})".showText(this)
     }
 
     fun cancelAlarm() {
@@ -76,7 +105,7 @@ class SettingsActivity : AppCompatActivity() {
             getSystemService(Context.ALARM_SERVICE) as AlarmManager
         manager.cancel(pendingIntent)
 
-        "Értesítések törölve".showText(this)
+        "Értesítés törölve".showText(this)
     }
 
     private fun createNotificationChannel() {
