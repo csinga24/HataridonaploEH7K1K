@@ -11,6 +11,7 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="com.example.maptest.permission.MAPS_RECEIVE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
 
     <application
         android:allowBackup="true"
@@ -32,39 +33,45 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
 
-        <activity
-            android:name=".ui.calendar.fragments.ShowEventActivity"
-            android:label="@string/title_activity_show_event" />
-        <activity android:name=".RegistrationActivity" />
-
         <uses-library
             android:name="com.google.android.maps"
             android:required="true" />
 
-        <activity
-            android:name=".ui.calendar.fragments.MapsActivity"
-            android:label="@string/title_activity_maps" />
-        <activity android:name=".ui.notes.CreateNoteActivity" />
-        <activity android:name=".ui.calendar.fragments.CreateEventActivity" />
-        <activity android:name=".ui.habittracker.CreateHabitActivity" android:theme="@android:style/Theme.Material.Light.Dialog" />
-        <activity
-            android:name=".MenuActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".menu.ProfilActivity" />
 
-        <service android:name=".messaging.TheFirebaseInstanceIdService">
+        <activity android:name=".RegistrationActivity" />
+
+        <activity
+            android:name=".MenuActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+
+        <activity
+            android:name=".ui.calendar.fragments.ShowEventActivity"
+            android:label="@string/title_activity_show_event" />
+
+        <activity
+            android:name=".ui.calendar.fragments.MapsActivity"
+            android:label="@string/title_activity_maps" />
+
+        <activity android:name=".ui.notes.CreateNoteActivity" />
+        <activity android:name=".ui.calendar.fragments.CreateEventActivity" />
+        <activity android:name=".ui.habittracker.CreateHabitActivity" android:theme="@android:style/Theme.Material.Light.Dialog" />
+
+        <activity android:name=".menu.SettingsActivity" android:label="@string/action_settings" />
+
+        <receiver
+            android:name=".receiver.NotificationReceiver"
+            android:process=":remote">
             <intent-filter>
-                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
-                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+                <action android:name="alarm"/>
             </intent-filter>
-        </service>
+        </receiver>
+
     </application>
 
 </manifest>
