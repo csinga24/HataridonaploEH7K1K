@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/adelete"
+        android:title="@string/end_delete"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/renew"
+        android:title="@string/renew"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/aback"
+        android:title="@string/back"
+        app:showAsAction="always" />
+</menu>

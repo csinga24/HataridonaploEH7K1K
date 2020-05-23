@@ -31,6 +31,7 @@ class NotesFragment : Fragment() {
 
     companion object {
         const val REQUEST_NEW_NOTE = 16
+        const val REQUEST_ARCHIVE = 22
     }
 
     override fun onCreateView(
@@ -59,6 +60,12 @@ class NotesFragment : Fragment() {
             chooseFilterNotesDialog()
         }
 
+        val archiveButton = view.findViewById<Button>(R.id.button_archive)
+        archiveButton.setOnClickListener {
+            val archiveIntent = Intent(context, ArchiveNoteActivity::class.java)
+            startActivityForResult(archiveIntent, REQUEST_ARCHIVE)
+        }
+
         val recyclerView: RecyclerView = view.findViewById(R.id.rvNotes)
         recyclerView.addOnItemTouchListener(
             RecyclerViewItemClickListener(
@@ -73,6 +80,12 @@ class NotesFragment : Fragment() {
                         popup.setOnMenuItemClickListener { item ->
                             when (item.itemId) {
                                 R.id.delete -> {
+                                    //add to archive
+                                    FirebaseDatabase.getInstance().reference.child("archive")
+                                        .child(notesAdapter.getNote(position).key.toString())
+                                        .setValue(notesAdapter.getNote(position))
+
+                                    //delete from notes
                                     FirebaseDatabase.getInstance().reference.child("notes")
                                         .child(notesAdapter.getNote(position).key.toString())
                                         .removeValue()

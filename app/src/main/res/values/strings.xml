@@ -54,5 +54,10 @@
     <string name="evening">este (18:00)</string>
     <string name="start_alarm">Értesítések bekapcsolása</string>
     <string name="cancel_alarm">Értesítések kikapcsolása</string>
+    <string name="archive_notes">Törölt jegyzetek</string>
+    <string name="delete_all">Kiürítés</string>
+    <string name="delete_notes">Törölt jegyzetek (Archívum)</string>
+    <string name="renew">Helyreállítás</string>
+    <string name="end_delete">Végleges törlés</string>
 
 </resources>
