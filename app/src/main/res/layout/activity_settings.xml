@@ -97,24 +97,18 @@
                 android:text="@string/evening" />
         </RadioGroup>
 
-        <Button
-            android:id="@+id/startAlarm"
-            style="@style/BlackButton"
-            android:layout_width="wrap_content"
+        <Switch
+            android:id="@+id/switchAlarm"
+            android:layout_width="295dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="24dp"
-            android:text="@string/start_alarm" />
+            android:layout_marginTop="14dp"
+            android:showText="true"
+            android:text="@string/start_alarm"
+            android:textOff="ki"
+            android:textOn="be"
+            android:thumbTint="@android:color/holo_red_light" />
 
-        <Button
-            android:id="@+id/cancelAlarm"
-            style="@style/BlackButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_marginBottom="132dp"
-            android:text="@string/cancel_alarm" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

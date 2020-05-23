@@ -41,15 +41,15 @@ class SettingsActivity : AppCompatActivity() {
         val userEmail = findViewById<TextView>(R.id.profil_email)
         userEmail.text = "E-mail: " + firebaseUser?.email
 
-        val setAlarmButton = findViewById<Button>(R.id.startAlarm)
-        setAlarmButton.setOnClickListener {
-            val time: Calendar = getSelectedDate()
-            startAlarm(time)
-        }
-
-        val cancelAlarmButton = findViewById<Button>(R.id.cancelAlarm)
-        cancelAlarmButton.setOnClickListener {
-            cancelAlarm()
+        val setAlarmSwitch = findViewById<Switch>(R.id.switchAlarm)
+        setAlarmSwitch.setOnCheckedChangeListener { view, isChecked ->
+            if(isChecked) {
+                val time: Calendar = getSelectedDate()
+                startAlarm(time)
+            }
+            else{
+                cancelAlarm()
+            }
         }
 
         createNotificationChannel()
