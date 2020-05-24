@@ -1,5 +1,6 @@
 package hu.bme.aut.android.hataridonaploeh7k1k.ui.notes
 
+import android.app.Activity
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -33,6 +34,12 @@ class ArchiveNoteActivity: AppCompatActivity() {
             notesAdapter.deleteAll()
         }
 
+        val backButton = findViewById<Button>(R.id.back_to_notes)
+        backButton.setOnClickListener {
+            setResult(Activity.RESULT_OK)
+            onBackPressed()
+        }
+
         val recyclerView: RecyclerView = findViewById(R.id.rvNotesArchive)
         recyclerView.addOnItemTouchListener(
             RecyclerViewItemClickListener(this, recyclerView,
@@ -54,7 +61,7 @@ class ArchiveNoteActivity: AppCompatActivity() {
                                 }
                                 R.id.renew -> {
                                     //add to notes
-                                    FirebaseDatabase.getInstance().reference.child("note")
+                                    FirebaseDatabase.getInstance().reference.child("notes")
                                         .child(notesAdapter.getNote(position).key.toString())
                                         .setValue(notesAdapter.getNote(position))
 

@@ -33,6 +33,7 @@ class ListCalendarFragment : Fragment() {
 
     companion object {
         const val REQUEST_NEW_EVENT = 11
+        const val REQUEST_MODIFY_EVENT = 21
     }
 
     override fun onCreateView(
@@ -100,7 +101,7 @@ class ListCalendarFragment : Fragment() {
                             modifyEventIntent.putExtra("event location",  eventsAdapter.getEvent(position).location)
                             modifyEventIntent.putExtra("event key",  eventsAdapter.getEvent(position).key)
                             eventsAdapter.deleteEvent(position)
-                            startActivity(modifyEventIntent)
+                            startActivityForResult(modifyEventIntent, REQUEST_MODIFY_EVENT)
                             return@setOnMenuItemClickListener true
                         }
                     }
@@ -194,7 +195,7 @@ class ListCalendarFragment : Fragment() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_NEW_EVENT) {
+        if (resultCode == Activity.RESULT_OK) {
             refreshCalendarList()
         }
     }

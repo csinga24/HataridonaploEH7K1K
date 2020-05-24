@@ -183,6 +183,7 @@ class CreateNoteActivity : AppCompatActivity() {
                 .setValue(modifiedNote)
                 .addOnCompleteListener {
                     readyText.showText(this)
+                    setResult(Activity.RESULT_OK)
                     finish()
                 }
 

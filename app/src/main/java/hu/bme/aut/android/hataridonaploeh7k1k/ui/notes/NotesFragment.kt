@@ -31,6 +31,7 @@ class NotesFragment : Fragment() {
 
     companion object {
         const val REQUEST_NEW_NOTE = 16
+        const val REQUEST_MODIFY_NOTE = 18
         const val REQUEST_ARCHIVE = 22
     }
 
@@ -101,7 +102,7 @@ class NotesFragment : Fragment() {
                                     modifyNoteIntent.putExtra("note img", notesAdapter.getNote(position).imageUrl)
                                     modifyNoteIntent.putExtra("note key", notesAdapter.getNote(position).key)
                                     notesAdapter.deleteNote(position)
-                                    startActivity(modifyNoteIntent)
+                                    startActivityForResult(modifyNoteIntent, REQUEST_MODIFY_NOTE)
                                     return@setOnMenuItemClickListener true
                                 }
                             }
@@ -201,7 +202,7 @@ class NotesFragment : Fragment() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_NEW_NOTE) {
+        if (resultCode == Activity.RESULT_OK){
             refreshNotes()
         }
     }

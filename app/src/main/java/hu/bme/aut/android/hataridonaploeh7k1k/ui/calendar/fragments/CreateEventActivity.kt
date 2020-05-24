@@ -112,6 +112,7 @@ class CreateEventActivity : AppCompatActivity() {
                 .setValue(modifiedEvent)
                 .addOnCompleteListener {
                     readyText.showText(this)
+                    setResult(Activity.RESULT_OK)
                     finish()
                 }
         }
