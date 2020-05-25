@@ -88,7 +88,9 @@ class ListCalendarFragment : Fragment() {
                 popup.setOnMenuItemClickListener { item ->
                     when (item.itemId) {
                         R.id.delete -> {
-                            FirebaseDatabase.getInstance().reference.child("events").child(eventsAdapter.getEvent(position).key.toString()).removeValue()
+                            FirebaseDatabase.getInstance().reference.child("events")
+                                .child(eventsAdapter.getEvent(position).key.toString())
+                                .removeValue()
                             eventsAdapter.deleteEvent(position)
                             return@setOnMenuItemClickListener true
                         }

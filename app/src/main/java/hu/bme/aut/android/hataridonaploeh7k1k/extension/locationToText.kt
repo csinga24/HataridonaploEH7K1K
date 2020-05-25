@@ -8,6 +8,6 @@ import java.util.*
 
 fun LatLng.locationToText(context: Context): String {
     val gc = Geocoder(context, Locale.getDefault())
-    var locations: List<Address>? = gc.getFromLocation(this.latitude, this.longitude, 3)
+    val locations: List<Address>? = gc.getFromLocation(this.latitude, this.longitude, 3)
     return locations!![0].getAddressLine(0)
 }

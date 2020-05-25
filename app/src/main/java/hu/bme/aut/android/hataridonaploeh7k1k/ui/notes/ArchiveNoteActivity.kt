@@ -36,7 +36,6 @@ class ArchiveNoteActivity: AppCompatActivity() {
 
         val backButton = findViewById<Button>(R.id.back_to_notes)
         backButton.setOnClickListener {
-            setResult(Activity.RESULT_OK)
             onBackPressed()
         }
 
@@ -112,5 +111,10 @@ class ArchiveNoteActivity: AppCompatActivity() {
                 override fun onCancelled(databaseError: DatabaseError) {
                 }
             })
+    }
+
+    override fun onBackPressed() {
+        setResult(Activity.RESULT_OK)
+        super.onBackPressed()
     }
 }
